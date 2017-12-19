@@ -1,0 +1,53 @@
+ZERO
+
+INC
+
+SHL
+
+INC
+
+STORE 10
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+INC
+
+STORE 11
+
+LOAD 10
+
+SUB 11
+
+JZERO 15
+
+JUMP 18
+
+LOAD 11
+
+SUB 10
+
+JZERO 20
+
+ZERO
+
+JUMP 22
+
+ZERO
+
+INC
+
+JZERO 26
+ZERO
+
+INC
+
+PUT
+
+HALT
+

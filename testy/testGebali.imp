@@ -1,0 +1,14 @@
+VAR
+   a b
+BEGIN
+   READ a;
+   WHILE a > 0 DO
+      b := 10;
+      WHILE b > 0 DO
+         WRITE 0;
+         b := b - 1;
+      ENDWHILE
+      WRITE 1;
+      a := a - 1;
+   ENDWHILE
+END

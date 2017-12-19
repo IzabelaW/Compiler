@@ -1,0 +1,7 @@
+VAR
+    a b
+BEGIN
+    WRITE 1;
+    WRITE c;
+    c := d;
+END
