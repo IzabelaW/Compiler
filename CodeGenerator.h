@@ -43,11 +43,6 @@ void checkContext(string asmCodeOperation, string symbolName){
     if(symbolExists(symbolName)){
         generateCodeAtAddress(asmCodeOperation, getSymbol(symbolName));
     }
-    else {
-        string errorStr = "Niezadeklarowana zmienna " + symbolName + "!";
-        const char* error = errorStr.c_str();
-        yyerror(error);
-    }
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

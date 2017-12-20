@@ -12,8 +12,11 @@
 using namespace std;
 #include <string>
 #include <unordered_map>
+#include <iostream>
+
 
 unordered_map<string,int> symbolMap;
+unordered_map<string,bool> assignedSymbolMap;
 int offset = 10;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -22,7 +25,8 @@ int offset = 10;
 
 void yyerror (const char *error){
     extern int yylineno;
-    fprintf(stderr,"Error: line %d: %s\n",yylineno,error);
+    extern char linebuff[500];
+    cerr << "Błąd w linii " <<yylineno << ": " << error << "\n" << linebuff << "\n";
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -52,6 +56,50 @@ bool symbolExists(string name){
         return false;
     else
         return true;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                    void checkIfSymbolIsDeclared(string symbolName) - checks if symbol was already declared
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+void checkIfSymbolIsDeclared(string symbolName){
+    if (!symbolExists(symbolName)){
+        string errorStr = "Użycie niezadeklarowanej zmiennej " + symbolName + "!";
+        const char* error = errorStr.c_str();
+        yyerror(error);
+    }
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                        void assignSymbol(string symbolName) - notes that symbol was already assigned
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+void assignSymbol(string symbolName){
+    pair<string,bool> symbol (symbolName, true);
+    assignedSymbolMap.insert(symbol);
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                            bool wasAssigned(string symbolName) - returns true if symbol was already assigned and false otherwise
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+bool wasAssigned(string symbolName){
+    if (assignedSymbolMap.find(symbolName) == assignedSymbolMap.end())
+        return false;
+    else
+        return true;
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                    void checkIfSymbolIsAssigned(string symbolName) - checks if symbol was already assigned
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+void checkIfSymbolIsAssigned(string symbolName){
+    if (!wasAssigned(symbolName)){
+        string errorStr = "Użycie niezainicjowanej zmiennej " + symbolName + "!";
+        const char* error = errorStr.c_str();
+        yyerror(error);
+    }
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

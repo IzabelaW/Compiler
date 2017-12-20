@@ -13,63 +13,57 @@ using namespace std;
 #include <stdio.h>
 #include <string>
 
-/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                                        bool isNumber(string line) - checks if the string value is a number or not
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-bool isNumber(string line){
-    int n = line.length();
-    for(int i = 0; i < n; i++)
-        if(!isdigit(line[i]))
-            return false;
-    return true;
-}
+extern struct Value value; 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                             void equal(string a, string b) - generates assembler code for "value a is equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void equal(string a, string b){
-   int line;
-   if (!isNumber(a) && !isNumber(b)){
+void equal(Value* a, Value* b){
+    int line;
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
         line = getNumberOfAsmInstructions();
-        checkContext("LOAD", a);
-        checkContext("SUB", b);
+        checkContext("LOAD", a->variable);
+        checkContext("SUB", b->variable);
         generateCodeAtAddress("JZERO", line+4);
         generateCodeAtAddress("JUMP", line+7);
-        checkContext("LOAD", b);
-        checkContext("SUB", a);
+        checkContext("LOAD", b->variable);
+        checkContext("SUB", a->variable);
         generateCodeAtAddress("JZERO", line+9);
         generateCode("ZERO");
         generateCodeAtAddress("JUMP", line+11);
         generateCode("ZERO");
         generateCode("INC");
-   }
-   else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
+    }
+    else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 0);
         line = getNumberOfAsmInstructions();
-        checkContext("LOAD", a);
+        checkContext("LOAD", a->variable);
         generateCodeAtAddress("SUB", 0);
         generateCodeAtAddress("JZERO", line+4);
         generateCodeAtAddress("JUMP", line+7);
         generateCodeAtAddress("LOAD", 0);
-        checkContext("SUB", a);
+        checkContext("SUB", a->variable);
         generateCodeAtAddress("JZERO", line+9);
         generateCode("ZERO");
         generateCodeAtAddress("JUMP", line+11);
         generateCode("ZERO");
         generateCode("INC");
-   }
-   else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
+    }
+    else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
         generateCodeAtAddress("STORE", 0);
         line = getNumberOfAsmInstructions();
         generateCodeAtAddress("LOAD", 0);
-        checkContext("SUB", b);
+        checkContext("SUB", b->variable);
         generateCodeAtAddress("JZERO", line+4);
         generateCodeAtAddress("JUMP", line+7);
-        checkContext("LOAD", b);
+        checkContext("LOAD", b->variable);
         generateCodeAtAddress("SUB", 0);
         generateCodeAtAddress("JZERO", line+9);
         generateCode("ZERO");
@@ -77,12 +71,12 @@ void equal(string a, string b){
         generateCode("ZERO");
         generateCode("INC");
    }
-   else if (isNumber(a) && isNumber(b)){
-        if (stoll(a) == stoll(b)){
+   else if (a->isNumber == true && b->isNumber == true){
+        if (stoll(a->number) == stoll(b->number)){
             generateCode("ZERO");
             generateCode("INC");
         }
-        else if (stoll(a) != stoll(b)){
+        else if (stoll(a->number) != stoll(b->number)){
             generateCode("ZERO");
         }
    }
@@ -92,39 +86,43 @@ void equal(string a, string b){
                                             void notEqual(string a, string b) - generates assembler code for "value a is not equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void notEqual(string a, string b){
-   if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", a);
-        checkContext("SUB", b);
+void notEqual(Value* a, Value* b){
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);        
+        checkContext("LOAD", a->variable);
+        checkContext("SUB", b->variable);
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", b);
-        checkContext("SUB", a);
+        checkContext("LOAD", b->variable);
+        checkContext("SUB", a->variable);
         generateCodeAtAddress("ADD", 0);
-   }
-   else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
+    }
+   else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", a);
+        checkContext("LOAD", a->variable);
         generateCodeAtAddress("SUB", 0);
         generateCodeAtAddress("STORE", 1);
         generateCodeAtAddress("LOAD", 0);
-        checkContext("SUB", a);
+        checkContext("SUB", a->variable);
         generateCodeAtAddress("ADD", 1);
    }
-   else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
+   else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("SUB", b);
+        checkContext("SUB", b->variable);
         generateCodeAtAddress("STORE", 1);
-        checkContext("LOAD", b);
+        checkContext("LOAD", b->variable);
         generateCodeAtAddress("SUB", 0);
         generateCodeAtAddress("ADD", 1);
    }
-   else if (isNumber(a) && isNumber(b)){
-        if (stoll(a) == stoll(b)){
+   else if (a->isNumber == true && b->isNumber == true){
+        if (stoll(a->number) == stoll(b->number)){
             generateCode("ZERO");
         }  
-        else if (stoll(a) != stoll(b)){
+        else if (stoll(a->number) != stoll(b->number)){
             generateCode("ZERO");
             generateCode("INC");
         }  
@@ -135,25 +133,29 @@ void notEqual(string a, string b){
                                             void lessThan(string a, string b) - generates assembler code for "value a is less than value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void lessThan(string a, string b){
-   if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", b);
-        checkContext("SUB", a);
+void lessThan(Value* a, Value* b){
+   if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        checkContext("LOAD", b->variable);
+        checkContext("SUB", a->variable);
    }
-   else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
-        checkContext("SUB", a);
+   else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
+        checkContext("SUB", a->variable);
    }
-   else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
+   else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", b);
+        checkContext("LOAD", b->variable);
         generateCodeAtAddress("SUB", 0);
    }
-   else if (isNumber(a) && isNumber(b)){
-        loadNumber(stoll(a));
+   else if (a->isNumber == true && b->isNumber == true){
+        loadNumber(stoll(a->number));
         generateCodeAtAddress("STORE", 0);
-        loadNumber(stoll(b));
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("SUB", 0);
    }
 }
@@ -162,25 +164,29 @@ void lessThan(string a, string b){
                                         void greaterThan(string a, string b) - generates assembler code for "value a is greater than value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void greaterThan(string a, string b){
-    if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", a);
-        checkContext("SUB", b);
+void greaterThan(Value* a, Value* b){
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        checkContext("LOAD", a->variable);
+        checkContext("SUB", b->variable);
    }
-   else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
+   else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", a);
+        checkContext("LOAD", a->variable);
         generateCodeAtAddress("SUB", 0);
    }
-   else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
-        checkContext("SUB", b);
+   else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
+        checkContext("SUB", b->variable);
    }
-   else if (isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
+   else if (a->isNumber == true && b->isNumber == true){
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 0);
-        loadNumber(stoll(a));
+        loadNumber(stoll(a->number));
         generateCodeAtAddress("SUB", 0);
    }
 }
@@ -189,28 +195,32 @@ void greaterThan(string a, string b){
                                         void lessEqualThan(string a, string b) - generates assembler code for "value a is less or equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void lessEqualThan(string a, string b){
-    if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", b);
+void lessEqualThan(Value* a, Value* b){
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        checkContext("LOAD", b->variable);
         generateCode("INC");
-        checkContext("SUB", a);
+        checkContext("SUB", a->variable);
     }
-    else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b)+1);
-        checkContext("SUB", a);
+    else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number)+1);
+        checkContext("SUB", a->variable);
     }
-    else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
+    else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", b);
+        checkContext("LOAD", b->variable);
         generateCode("INC");
         generateCodeAtAddress("SUB", 0);
     }
-    else if (isNumber(a) && isNumber(b)){
-        if (stoll(a) < stoll(b)+1){
+    else if (a->isNumber == true && b->isNumber == true){
+        if (stoll(a->number) < stoll(b->number)+1){
             generateCode("ZERO");
             generateCode("INC");
-        } else if (stoll(a) >= stoll(b)+1){
+        } else if (stoll(a->number) >= stoll(b->number)+1){
             generateCode("ZERO");
         }
     }
@@ -220,28 +230,32 @@ void lessEqualThan(string a, string b){
                                         void greaterEqualThan(string a, string b) - generates assembler code for "value a is greater equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void greaterEqualThan(string a, string b){
-    if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", a);
+void greaterEqualThan(Value* a, Value* b){
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        checkContext("LOAD", a->variable);
         generateCode("INC");
-        checkContext("SUB", b);
+        checkContext("SUB", b->variable);
     }
-    else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
+    else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", a);
+        checkContext("LOAD", a->variable);
         generateCode("INC");
         generateCodeAtAddress("SUB", 0);
     }
-    else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a)+1);
-        checkContext("SUB", b);
+    else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number)+1);
+        checkContext("SUB", b->variable);
     }
-    else if (isNumber(a) && isNumber(b)){
-        if (stoll(a)+1 > stoll(b)){
+    else if (a->isNumber == true && b->isNumber == true){
+        if (stoll(a->number)+1 > stoll(b->number)){
             generateCode("ZERO");
             generateCode("INC");
-        } else if (stoll(a)+1 <= stoll(b)){
+        } else if (stoll(a->number)+1 <= stoll(b->number)){
             generateCode("ZERO");
         }
     }

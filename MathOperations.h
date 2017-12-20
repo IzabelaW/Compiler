@@ -12,55 +12,62 @@
 using namespace std;
 #include <stdio.h>
 #include <string>
+
+extern struct Value value; 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                                     void addValues(string a, string b) - generates assembler code for adding two values 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void addValues(string a, string b){
-   if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", a);
-        checkContext("ADD", b);
-   }
-   else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
-        checkContext("ADD", a);
-   }
-   else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
-        checkContext("ADD", b);
-   }
-   else if (isNumber(a) && isNumber(b)){
-        loadNumber(stoll(a));
-        generateCodeAtAddress("STORE", 0);
-        loadNumber(stoll(b));
-        generateCodeAtAddress("ADD", 0);
-   }
+void addValues(Value* a, Value* b){
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        checkContext("LOAD", a->variable);
+        checkContext("ADD", b->variable);
+    }
+    else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
+        checkContext("ADD", a->variable);
+    }
+    else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
+        checkContext("ADD", b->variable);
+    }
+    else if (a->isNumber == true && b->isNumber == true){
+        loadNumber(stoll(a->number)+stoll(b->number));
+    }
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                                 void subValues(string a, string b) - generates assembler code for subtraction of two values 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-void subValues(string a, string b){
-   if (!isNumber(a) && !isNumber(b)){
-        checkContext("LOAD", a);
-        checkContext("SUB", b);
+void subValues(Value* a, Value* b){
+   if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        checkContext("LOAD", a->variable);
+        checkContext("SUB", b->variable);
    }
-   else if (!isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
+   else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 0);
-        checkContext("LOAD", a);
+        checkContext("LOAD", a->variable);
         generateCodeAtAddress("SUB", 0);
    }
-   else if (isNumber(a) && !isNumber(b)){
-        loadNumber(stoll(a));
-        checkContext("SUB", b);
+   else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        loadNumber(stoll(a->number));
+        checkContext("SUB", b->variable);
    }
-   else if (isNumber(a) && isNumber(b)){
-        loadNumber(stoll(b));
-        generateCodeAtAddress("STORE", 0);
-        loadNumber(stoll(a));
-        generateCodeAtAddress("SUB", 0);
+   else if (a->isNumber == true && b->isNumber == true){
+        if (stoll(a->number)-stoll(b->number) <= 0)
+            generateCode("ZERO");
+        else
+            loadNumber(stoll(a->number)-stoll(b->number));
    }
 }
 

@@ -45,38 +45,59 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    SEMICOLON = 258,
-    ASSIGN = 259,
-    LEFT_SQUARE_BRACKET = 260,
-    RIGHT_SQUARE_BRACKET = 261,
-    VAR = 262,
-    BEGIN_PROGRAM = 263,
-    END = 264,
-    PIDENTIFIER = 265,
-    NUM = 266,
-    READ = 267,
-    WRITE = 268,
-    ADD = 269,
-    SUB = 270,
-    EQUAL = 271,
-    NOT_EQUAL = 272,
-    LESS = 273,
-    LESS_EQUAL = 274,
-    GREATER = 275,
-    GREATER_EQUAL = 276,
-    IF = 277,
-    THEN = 278,
-    ELSE = 279,
-    ENDIF = 280,
-    WHILE = 281,
-    DO = 282,
-    ENDWHILE = 283
+    NUM = 258,
+    PIDENTIFIER = 259,
+    SEMICOLON = 260,
+    ASSIGN = 261,
+    LEFT_SQUARE_BRACKET = 262,
+    RIGHT_SQUARE_BRACKET = 263,
+    VAR = 264,
+    BEGIN_PROGRAM = 265,
+    END = 266,
+    INVALID_NUM = 267,
+    INVALID_SYMBOL = 268,
+    READ = 269,
+    WRITE = 270,
+    ADD = 271,
+    SUB = 272,
+    EQUAL = 273,
+    NOT_EQUAL = 274,
+    LESS = 275,
+    LESS_EQUAL = 276,
+    GREATER = 277,
+    GREATER_EQUAL = 278,
+    IF = 279,
+    THEN = 280,
+    ELSE = 281,
+    ENDIF = 282,
+    WHILE = 283,
+    DO = 284,
+    ENDWHILE = 285,
+    FOR = 286,
+    FROM = 287,
+    TO = 288,
+    DOWNTO = 289,
+    ENDFOR = 290,
+    ERROR = 291
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 33 "Parser.y" /* yacc.c:1915  */
+
+    struct Value* value;
+    char* string;
+		//Identifier* identifier;
+		//Command* command;
+
+#line 98 "Parser.tab.h" /* yacc.c:1915  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
