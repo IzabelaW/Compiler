@@ -15,9 +15,9 @@ using namespace std;
 #include <iostream>
 
 
-unordered_map<string,int> symbolMap;
+unordered_map<string,long long> symbolMap;
 unordered_map<string,bool> assignedSymbolMap;
-int offset = 10;
+long long offset = 10;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                                        void yyerror(const char* error) - generates errors with number of line
@@ -34,7 +34,7 @@ void yyerror (const char *error){
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void putSymbol(string name){
-    pair<string,int> symbol (name, offset);
+    pair<string,long long> symbol (name, offset);
     symbolMap.insert(symbol);
     offset++;
 }
@@ -110,11 +110,42 @@ void installIdentifier(string symbolName){
    if(!symbolExists(symbolName)){
         putSymbol(symbolName);
    }
-   else{
+   else {
         string errorStr = "Zmienna " + symbolName + " jest już zadeklarowana!";
         const char* error = errorStr.c_str();
         yyerror(error);
    }
 }
 
+bool arrayExists(string arrayName){
+    if (symbolMap.find(arrayName) == symbolMap.end())
+        return false;
+    else
+        return true;
+}
+
+void putArray(string arrayName, long long arraySize){
+    pair<string,long long> array (arrayName, offset);
+    symbolMap.insert(array);
+    offset = offset + arraySize + 1;
+}
+
+void installArray(string arrayName, long long arraySize){
+    if(!arrayExists(arrayName)){
+        putArray(arrayName, arraySize);
+    }
+    else {
+        string errorStr = "Tablica " + arrayName + " jest już zadeklarowana!";
+        const char* error = errorStr.c_str();
+        yyerror(error);
+    }
+}
+
+void checkIfArrayIsDeclared(string arrayName){
+    if (!arrayExists(arrayName)){
+        string errorStr = "Użycie niezadeklarowanej tablicy " + arrayName + "!";
+        const char* error = errorStr.c_str();
+        yyerror(error);
+    }
+}
 #endif

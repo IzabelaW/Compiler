@@ -19,6 +19,8 @@ vector<string> code;
 stack<int> ifStack;
 stack<int> whileStack;
 
+extern struct Value value; 
+
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                         void generateCodeAtAddress(string asmCodeOperation, int address) - generates assembler code with memory address
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -125,6 +127,17 @@ void loadNumber(long long number){
                 generateCode("SHL");
         }
     }
+}
+
+void loadArray(Value* array){
+    if(array->isVariableIterator == true){
+        checkContext("LOAD", array->arrayName);
+        checkContext("ADD", array->variableIterator);
+    }
+    else if (array->isConstantIterator == true){
+        long long firstAddress = getSymbol(array->arrayName);
+        loadNumber(firstAddress + array->constantIterator + 1);
+    }   
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

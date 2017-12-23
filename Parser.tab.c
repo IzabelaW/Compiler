@@ -83,10 +83,15 @@ long long yylex(void);
 
 struct Value {
     bool isArray;
+    bool isVariableIterator;
+    bool isConstantIterator;
     bool isNumber;
     bool isVariable;
     string number;
     string variable;
+    string arrayName;
+    string variableIterator;
+    long long constantIterator;
 };
 
 #include "SymbolMap.h"
@@ -94,7 +99,7 @@ struct Value {
 #include "LogicOperations.h"
 #include "MathOperations.h"
 
-#line 98 "Parser.tab.c" /* yacc.c:339  */
+#line 103 "Parser.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -138,30 +143,30 @@ extern int yydebug;
     VAR = 264,
     BEGIN_PROGRAM = 265,
     END = 266,
-    INVALID_NUM = 267,
-    INVALID_SYMBOL = 268,
-    READ = 269,
-    WRITE = 270,
-    ADD = 271,
-    SUB = 272,
-    EQUAL = 273,
-    NOT_EQUAL = 274,
-    LESS = 275,
-    LESS_EQUAL = 276,
-    GREATER = 277,
-    GREATER_EQUAL = 278,
-    IF = 279,
-    THEN = 280,
-    ELSE = 281,
-    ENDIF = 282,
-    WHILE = 283,
-    DO = 284,
-    ENDWHILE = 285,
-    FOR = 286,
-    FROM = 287,
-    TO = 288,
-    DOWNTO = 289,
-    ENDFOR = 290,
+    READ = 267,
+    WRITE = 268,
+    ADD = 269,
+    SUB = 270,
+    EQUAL = 271,
+    NOT_EQUAL = 272,
+    LESS = 273,
+    LESS_EQUAL = 274,
+    GREATER = 275,
+    GREATER_EQUAL = 276,
+    IF = 277,
+    THEN = 278,
+    ELSE = 279,
+    ENDIF = 280,
+    WHILE = 281,
+    DO = 282,
+    ENDWHILE = 283,
+    FOR = 284,
+    FROM = 285,
+    TO = 286,
+    DOWNTO = 287,
+    ENDFOR = 288,
+    INVALID_NUM = 289,
+    INVALID_SYMBOL = 290,
     ERROR = 291
   };
 #endif
@@ -171,14 +176,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "Parser.y" /* yacc.c:355  */
+#line 38 "Parser.y" /* yacc.c:355  */
 
     struct Value* value;
     char* string;
-		//Identifier* identifier;
-		//Command* command;
 
-#line 182 "Parser.tab.c" /* yacc.c:355  */
+#line 185 "Parser.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -195,7 +198,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 199 "Parser.tab.c" /* yacc.c:358  */
+#line 202 "Parser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -437,16 +440,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   96
+#define YYLAST   88
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  37
+#define YYNTOKENS  42
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  14
+#define YYNNTS  15
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  29
+#define YYNRULES  33
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  60
+#define YYNSTATES  69
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -464,12 +467,12 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,    40,     2,    41,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    39,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,    37,     2,    38,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -496,9 +499,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    66,    66,    68,    70,    72,    73,    75,    85,    85,
-      90,    91,    90,   104,   109,   119,   119,   132,   138,   144,
-     145,   151,   152,   153,   154,   155,   156,   158,   167,   169
+       0,    68,    68,    73,    74,    78,    80,    81,    83,    83,
+      98,    98,   103,   104,   103,   117,   131,   146,   146,   159,
+     165,   180,   181,   187,   188,   189,   190,   191,   192,   194,
+     203,   205,   216,   234
 };
 #endif
 
@@ -509,12 +513,13 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "NUM", "PIDENTIFIER", "SEMICOLON",
   "ASSIGN", "LEFT_SQUARE_BRACKET", "RIGHT_SQUARE_BRACKET", "VAR",
-  "BEGIN_PROGRAM", "END", "INVALID_NUM", "INVALID_SYMBOL", "READ", "WRITE",
-  "ADD", "SUB", "EQUAL", "NOT_EQUAL", "LESS", "LESS_EQUAL", "GREATER",
-  "GREATER_EQUAL", "IF", "THEN", "ELSE", "ENDIF", "WHILE", "DO",
-  "ENDWHILE", "FOR", "FROM", "TO", "DOWNTO", "ENDFOR", "ERROR", "$accept",
-  "program", "vdeclarations", "commands", "command", "$@1", "$@2", "$@3",
-  "innerIf", "$@4", "expression", "condition", "value", "identifier", YY_NULLPTR
+  "BEGIN_PROGRAM", "END", "READ", "WRITE", "ADD", "SUB", "EQUAL",
+  "NOT_EQUAL", "LESS", "LESS_EQUAL", "GREATER", "GREATER_EQUAL", "IF",
+  "THEN", "ELSE", "ENDIF", "WHILE", "DO", "ENDWHILE", "FOR", "FROM", "TO",
+  "DOWNTO", "ENDFOR", "INVALID_NUM", "INVALID_SYMBOL", "ERROR", "'['",
+  "']'", "';'", "'+'", "'-'", "$accept", "program", "vdeclarations",
+  "commands", "command", "$@1", "$@2", "$@3", "$@4", "innerIf", "$@5",
+  "expression", "condition", "value", "identifier", YY_NULLPTR
 };
 #endif
 
@@ -526,14 +531,15 @@ static const yytype_uint16 yytoknum[] =
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286,   287,   288,   289,   290,   291
+     285,   286,   287,   288,   289,   290,   291,    91,    93,    59,
+      43,    45
 };
 # endif
 
-#define YYPACT_NINF -33
+#define YYPACT_NINF -41
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-33)))
+  (!!((Yystate) == (-41)))
 
 #define YYTABLE_NINF -1
 
@@ -544,12 +550,13 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -5,   -33,     9,     8,   -33,   -33,    62,   -33,     7,     4,
-       4,   -33,    11,   -33,    10,    14,   -33,    23,   -33,    13,
-      73,     4,   -33,   -33,     4,   -33,   -33,   -33,     4,     4,
-       4,     4,     4,     4,    16,    41,    24,    62,   -33,   -33,
-     -33,   -33,   -33,   -33,   -33,   -33,     4,     4,     6,    62,
-     -33,   -33,   -33,   -33,   -33,    -1,    62,   -33,    57,   -33
+       9,   -41,    21,     2,   -41,   -15,    50,    20,     6,    31,
+       5,     5,   -41,    53,   -41,   -41,     7,    10,     8,   -41,
+      12,   -41,    23,    67,     5,   -41,   -41,    38,   -41,    29,
+      32,   -41,   -41,   -41,     5,     5,     5,     5,     5,     5,
+      44,     5,   -41,   -41,    50,   -41,   -41,   -41,   -41,   -41,
+     -41,   -41,    19,   -24,    15,    50,   -41,     5,     5,   -41,
+     -41,   -41,    -2,   -41,   -41,    50,   -41,    56,   -41
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -557,26 +564,27 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     4,     0,     0,     1,     3,     0,    29,     0,     0,
-       0,    10,     0,     6,     0,     0,    27,     0,    28,     0,
-       0,     0,     2,     5,     0,    13,    14,     8,     0,     0,
-       0,     0,     0,     0,     0,     0,    18,     0,    21,    22,
-      23,    25,    24,    26,    11,     7,     0,     0,     0,     0,
-      19,    20,    15,    17,     9,     0,     0,    12,     0,    16
+       0,     5,     0,     0,     1,     3,     0,     0,    31,     0,
+       0,     0,    12,     0,     7,     8,     0,     0,     0,    29,
+       0,    30,     0,     0,     0,     2,     6,     0,     4,     0,
+       0,    15,    16,    10,     0,     0,     0,     0,     0,     0,
+       0,     0,    33,    32,     0,    23,    24,    25,    27,    26,
+      28,    13,     0,    20,     0,     0,     9,     0,     0,    17,
+      19,    11,     0,    21,    22,     0,    14,     0,    18
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -33,   -33,   -33,   -32,   -11,   -33,   -33,   -33,   -33,   -33,
-     -33,    32,    27,    -6
+     -41,   -41,   -41,   -40,   -12,   -41,   -41,   -41,   -41,   -41,
+     -41,   -41,    49,    -5,    -6
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,    12,    13,    37,    21,    49,    54,    56,
-      35,    19,    20,    18
+      -1,     2,     3,    13,    14,    27,    44,    24,    55,    61,
+      65,    52,    22,    23,    21
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -584,58 +592,59 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      14,    23,    15,     7,     1,    48,    14,    16,     7,     4,
-       7,     7,     5,     8,     9,     7,    24,    55,     6,    25,
-       8,     9,    22,    10,    58,     8,     9,    11,    26,    57,
-      10,    14,    52,    53,    11,    10,    17,    23,    27,    11,
-      46,    47,    14,    14,    23,    44,    45,    23,     0,    14,
-      14,    36,    14,    34,     0,    38,    39,    40,    41,    42,
-      43,     7,     0,     0,     0,     0,     7,     0,     0,     0,
-       0,     8,     9,    50,    51,     0,     8,     9,     0,     0,
-       0,    10,     0,     0,    59,    11,    10,     0,     0,     0,
-      11,    28,    29,    30,    31,    32,    33
+      15,    26,     8,    18,    54,    20,     5,    15,    19,     8,
+       9,    10,     6,    29,    30,    62,    57,    58,     1,     8,
+      11,     4,     7,    16,    12,    67,    66,     9,    10,    45,
+      46,    47,    48,    49,    50,     8,    53,    11,    15,    59,
+      60,    12,    26,    17,    41,    28,    33,    31,    15,    15,
+      26,    32,    63,    64,     8,    26,    15,     8,    56,    15,
+       8,    15,     9,    10,    25,     9,    10,    42,     9,    10,
+      43,    51,    11,    40,     0,    11,    12,     0,    11,    12,
+       0,    68,    12,    34,    35,    36,    37,    38,    39
 };
 
 static const yytype_int8 yycheck[] =
 {
-       6,    12,     8,     4,     9,    37,    12,     3,     4,     0,
-       4,     4,     4,    14,    15,     4,     6,    49,    10,     5,
-      14,    15,    11,    24,    56,    14,    15,    28,     5,    30,
-      24,    37,    26,    27,    28,    24,     9,    48,    25,    28,
-      16,    17,    48,    49,    55,    29,     5,    58,    -1,    55,
-      56,    24,    58,    21,    -1,    28,    29,    30,    31,    32,
-      33,     4,    -1,    -1,    -1,    -1,     4,    -1,    -1,    -1,
-      -1,    14,    15,    46,    47,    -1,    14,    15,    -1,    -1,
-      -1,    24,    -1,    -1,    27,    28,    24,    -1,    -1,    -1,
-      28,    18,    19,    20,    21,    22,    23
+       6,    13,     4,     9,    44,    10,     4,    13,     3,     4,
+      12,    13,    10,     3,     4,    55,    40,    41,     9,     4,
+      22,     0,    37,     3,    26,    65,    28,    12,    13,    34,
+      35,    36,    37,    38,    39,     4,    41,    22,    44,    24,
+      25,    26,    54,    37,     6,    38,    23,    39,    54,    55,
+      62,    39,    57,    58,     4,    67,    62,     4,    39,    65,
+       4,    67,    12,    13,    11,    12,    13,    38,    12,    13,
+      38,    27,    22,    24,    -1,    22,    26,    -1,    22,    26,
+      -1,    25,    26,    16,    17,    18,    19,    20,    21
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     9,    38,    39,     0,     4,    10,     4,    14,    15,
-      24,    28,    40,    41,    50,    50,     3,    49,    50,    48,
-      49,    43,    11,    41,     6,     5,     5,    25,    18,    19,
-      20,    21,    22,    23,    48,    47,    49,    42,    49,    49,
-      49,    49,    49,    49,    29,     5,    16,    17,    40,    44,
-      49,    49,    26,    27,    45,    40,    46,    30,    40,    27
+       0,     9,    43,    44,     0,     4,    10,    37,     4,    12,
+      13,    22,    26,    45,    46,    56,     3,    37,    56,     3,
+      55,    56,    54,    55,    49,    11,    46,    47,    38,     3,
+       4,    39,    39,    23,    16,    17,    18,    19,    20,    21,
+      54,     6,    38,    38,    48,    55,    55,    55,    55,    55,
+      55,    27,    53,    55,    45,    50,    39,    40,    41,    24,
+      25,    51,    45,    55,    55,    52,    28,    45,    25
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    37,    38,    39,    39,    40,    40,    41,    42,    41,
-      43,    44,    41,    41,    41,    46,    45,    45,    47,    47,
-      47,    48,    48,    48,    48,    48,    48,    49,    49,    50
+       0,    42,    43,    44,    44,    44,    45,    45,    47,    46,
+      48,    46,    49,    50,    46,    46,    46,    52,    51,    51,
+      53,    53,    53,    54,    54,    54,    54,    54,    54,    55,
+      55,    56,    56,    56
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     5,     2,     0,     2,     1,     4,     0,     6,
-       0,     0,     7,     3,     3,     0,     4,     1,     1,     3,
-       3,     3,     3,     3,     3,     3,     3,     1,     1,     1
+       0,     2,     5,     2,     5,     0,     2,     1,     0,     5,
+       0,     6,     0,     0,     7,     3,     3,     0,     4,     1,
+       1,     3,     3,     3,     3,     3,     3,     3,     3,     1,
+       1,     1,     4,     4
 };
 
 
@@ -1312,58 +1321,80 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 66 "Parser.y" /* yacc.c:1661  */
-    {   generateCode("HALT"); printCode(); }
-#line 1318 "Parser.tab.c" /* yacc.c:1661  */
+#line 68 "Parser.y" /* yacc.c:1661  */
+    {   
+                                                                                                            generateCode("HALT"); 
+                                                                                                            printCode(); 
+                                                                                                        }
+#line 1330 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 3:
-#line 68 "Parser.y" /* yacc.c:1661  */
-    {   installIdentifier((yyvsp[0].string)); }
-#line 1324 "Parser.tab.c" /* yacc.c:1661  */
+#line 73 "Parser.y" /* yacc.c:1661  */
+    {   installIdentifier((yyvsp[0].string));          }
+#line 1336 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 7:
-#line 75 "Parser.y" /* yacc.c:1661  */
-    { 
-                                                                                        if ((yyvsp[-1].value)->isVariable == true){
-                                                                                            checkContext("STORE", (yyvsp[-3].value)->variable);
-                                                                                            assignSymbol((yyvsp[-3].value)->variable);
-                                                                                        }
-                                                                                        else {
-                                                                                            checkContext("STORE", (yyvsp[-3].value)->variable);
-                                                                                            assignSymbol((yyvsp[-3].value)->variable);
-                                                                                        }
-                                                                                    }
-#line 1339 "Parser.tab.c" /* yacc.c:1661  */
+  case 4:
+#line 74 "Parser.y" /* yacc.c:1661  */
+    {   installArray((yyvsp[-3].string), stoll((yyvsp[-1].string)));    
+                                                                                                            loadNumber(getSymbol((yyvsp[-3].string)) + 1);
+                                                                                                            generateCodeAtAddress("STORE", getSymbol((yyvsp[-3].string)));
+                                                                                                        }
+#line 1345 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 8:
-#line 85 "Parser.y" /* yacc.c:1661  */
+#line 83 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        if ((yyvsp[0].value)->isArray == true){
+                                                                                            loadArray((yyvsp[0].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                        }
+                                                                                    }
+#line 1356 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 9:
+#line 89 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        if ((yyvsp[-4].value)->isArray == true){
+                                                                                            generateCodeAtAddress("STOREI",0);
+                                                                                        }
+                                                                                        if ((yyvsp[-4].value)->isVariable == true){
+                                                                                            checkContext("STORE", (yyvsp[-4].value)->variable);
+                                                                                            assignSymbol((yyvsp[-4].value)->variable);
+                                                                                        }
+                                                                                    }
+#line 1370 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 10:
+#line 98 "Parser.y" /* yacc.c:1661  */
     { 
                                                                                         pushOnIntStack();
                                                                                         generateCode("JZERO ?");
                                                                                     }
-#line 1348 "Parser.tab.c" /* yacc.c:1661  */
+#line 1379 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 10:
-#line 90 "Parser.y" /* yacc.c:1661  */
+  case 12:
+#line 103 "Parser.y" /* yacc.c:1661  */
     {   pushOnWhileStack(); }
-#line 1354 "Parser.tab.c" /* yacc.c:1661  */
+#line 1385 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 11:
-#line 91 "Parser.y" /* yacc.c:1661  */
+  case 13:
+#line 104 "Parser.y" /* yacc.c:1661  */
     { 
                                                                                         pushOnWhileStack();
                                                                                         generateCode("JZERO ?");
                                                                                     }
-#line 1363 "Parser.tab.c" /* yacc.c:1661  */
+#line 1394 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 12:
-#line 95 "Parser.y" /* yacc.c:1661  */
+  case 14:
+#line 108 "Parser.y" /* yacc.c:1661  */
     { 
                                                                                         int index  = popFromWhileStack();
                                                                                         int endLine = getNumberOfAsmInstructions()+1;
@@ -1371,35 +1402,49 @@ yyreduce:
                                                                                         int conditionLine = popFromWhileStack();
                                                                                         generateCodeAtAddress("JUMP", conditionLine);
                                                                                     }
-#line 1375 "Parser.tab.c" /* yacc.c:1661  */
+#line 1406 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 13:
-#line 104 "Parser.y" /* yacc.c:1661  */
-    { 
+  case 15:
+#line 117 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        if((yyvsp[-1].value)->isArray == true){
+                                                                                            loadArray((yyvsp[-1].value));
+                                                                                            generateCodeAtAddress("STORE", 0);
+                                                                                        }
                                                                                         generateCode("GET");
-                                                                                        checkContext("STORE", (yyvsp[-1].value)->variable);
-                                                                                        assignSymbol((yyvsp[-1].value)->variable);
+                                                                                        if ((yyvsp[-1].value)->isVariable == true){
+                                                                                            checkContext("STORE", (yyvsp[-1].value)->variable);
+                                                                                            assignSymbol((yyvsp[-1].value)->variable);
+                                                                                        }
+                                                                                        else if ((yyvsp[-1].value)->isArray == true){
+                                                                                            generateCodeAtAddress("STOREI",0);
+                                                                                        }
                                                                                     }
-#line 1385 "Parser.tab.c" /* yacc.c:1661  */
+#line 1425 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 14:
-#line 109 "Parser.y" /* yacc.c:1661  */
+  case 16:
+#line 131 "Parser.y" /* yacc.c:1661  */
     { 
                                                                                         if((yyvsp[-1].value)->isVariable == true){
                                                                                             checkIfSymbolIsAssigned((yyvsp[-1].value)->variable);
                                                                                             checkContext("LOAD", (yyvsp[-1].value)->variable);
                                                                                         }
-                                                                                        else
+                                                                                        else if ((yyvsp[-1].value)->isNumber == true)
                                                                                             loadNumber(stoll((yyvsp[-1].value)->number));
+                                                                                        else if ((yyvsp[-1].value)->isArray == true){
+                                                                                            loadArray((yyvsp[-1].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
                                                                                         generateCode("PUT");
                                                                                     }
-#line 1399 "Parser.tab.c" /* yacc.c:1661  */
+#line 1444 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 15:
-#line 119 "Parser.y" /* yacc.c:1661  */
+  case 17:
+#line 146 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         int index  = popFromIntStack();
                                                                                         pushOnIntStack();
@@ -1407,90 +1452,99 @@ yyreduce:
                                                                                         int actualLine = getNumberOfAsmInstructions();
                                                                                         changeCodeAtLine("JZERO " + to_string(actualLine), index);
                                                                                     }
-#line 1411 "Parser.tab.c" /* yacc.c:1661  */
+#line 1456 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 16:
-#line 127 "Parser.y" /* yacc.c:1661  */
+  case 18:
+#line 154 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         int index  = popFromIntStack();
                                                                                         int actualLine = getNumberOfAsmInstructions();
                                                                                         changeCodeAtLine("JUMP " + to_string(actualLine), index);
                                                                                     }
-#line 1421 "Parser.tab.c" /* yacc.c:1661  */
+#line 1466 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 17:
-#line 132 "Parser.y" /* yacc.c:1661  */
+  case 19:
+#line 159 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         int index  = popFromIntStack();
                                                                                         int actualLine = getNumberOfAsmInstructions();
                                                                                         changeCodeAtLine("JZERO " + to_string(actualLine), index);
                                                                                     }
-#line 1431 "Parser.tab.c" /* yacc.c:1661  */
-    break;
-
-  case 18:
-#line 138 "Parser.y" /* yacc.c:1661  */
-    {
-                                                                                        if ((yyvsp[0].value)->isNumber == true)
-                                                                                            loadNumber(stoll((yyvsp[0].value)->number));
-                                                                                        else if ((yyvsp[0].value)->isVariable == true)
-                                                                                            checkIfSymbolIsAssigned((yyvsp[0].value)->variable);
-                                                                                    }
-#line 1442 "Parser.tab.c" /* yacc.c:1661  */
-    break;
-
-  case 19:
-#line 144 "Parser.y" /* yacc.c:1661  */
-    {   addValues((yyvsp[-2].value), (yyvsp[0].value)); }
-#line 1448 "Parser.tab.c" /* yacc.c:1661  */
+#line 1476 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 20:
-#line 145 "Parser.y" /* yacc.c:1661  */
-    {   subValues((yyvsp[-2].value), (yyvsp[0].value)); }
-#line 1454 "Parser.tab.c" /* yacc.c:1661  */
+#line 165 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        if ((yyvsp[0].value)->isNumber == true)
+                                                                                            loadNumber(stoll((yyvsp[0].value)->number));
+                                                                                        else if ((yyvsp[0].value)->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned((yyvsp[0].value)->variable);
+                                                                                            if (wasAssigned((yyvsp[0].value)->variable)){
+                                                                                                checkContext("LOAD", (yyvsp[0].value)->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if ((yyvsp[0].value)->isArray == true){
+                                                                                            loadArray((yyvsp[0].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                    }
+#line 1496 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 21:
-#line 151 "Parser.y" /* yacc.c:1661  */
-    {   equal((yyvsp[-2].value), (yyvsp[0].value));            }
-#line 1460 "Parser.tab.c" /* yacc.c:1661  */
+#line 180 "Parser.y" /* yacc.c:1661  */
+    {   addValues((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1502 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 22:
-#line 152 "Parser.y" /* yacc.c:1661  */
-    {   notEqual((yyvsp[-2].value), (yyvsp[0].value));         }
-#line 1466 "Parser.tab.c" /* yacc.c:1661  */
+#line 181 "Parser.y" /* yacc.c:1661  */
+    {   subValues((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1508 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 23:
-#line 153 "Parser.y" /* yacc.c:1661  */
-    {   lessThan((yyvsp[-2].value), (yyvsp[0].value));         }
-#line 1472 "Parser.tab.c" /* yacc.c:1661  */
+#line 187 "Parser.y" /* yacc.c:1661  */
+    {   equal((yyvsp[-2].value), (yyvsp[0].value));            }
+#line 1514 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 24:
-#line 154 "Parser.y" /* yacc.c:1661  */
-    {   greaterThan((yyvsp[-2].value), (yyvsp[0].value));      }
-#line 1478 "Parser.tab.c" /* yacc.c:1661  */
+#line 188 "Parser.y" /* yacc.c:1661  */
+    {   notEqual((yyvsp[-2].value), (yyvsp[0].value));         }
+#line 1520 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 25:
-#line 155 "Parser.y" /* yacc.c:1661  */
-    {   lessEqualThan((yyvsp[-2].value), (yyvsp[0].value));    }
-#line 1484 "Parser.tab.c" /* yacc.c:1661  */
+#line 189 "Parser.y" /* yacc.c:1661  */
+    {   lessThan((yyvsp[-2].value), (yyvsp[0].value));         }
+#line 1526 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 26:
-#line 156 "Parser.y" /* yacc.c:1661  */
-    {   greaterEqualThan((yyvsp[-2].value), (yyvsp[0].value)); }
-#line 1490 "Parser.tab.c" /* yacc.c:1661  */
+#line 190 "Parser.y" /* yacc.c:1661  */
+    {   greaterThan((yyvsp[-2].value), (yyvsp[0].value));      }
+#line 1532 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 27:
-#line 158 "Parser.y" /* yacc.c:1661  */
+#line 191 "Parser.y" /* yacc.c:1661  */
+    {   lessEqualThan((yyvsp[-2].value), (yyvsp[0].value));    }
+#line 1538 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 28:
+#line 192 "Parser.y" /* yacc.c:1661  */
+    {   greaterEqualThan((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1544 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 29:
+#line 194 "Parser.y" /* yacc.c:1661  */
     {   
                                                                                         Value* newValue = new Value;
                                                                                         newValue->isArray = false;
@@ -1499,25 +1553,69 @@ yyreduce:
                                                                                         newValue->number = (yyvsp[0].string);
                                                                                         (yyval.value) = newValue;
                                                                                     }
-#line 1503 "Parser.tab.c" /* yacc.c:1661  */
+#line 1557 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 29:
-#line 169 "Parser.y" /* yacc.c:1661  */
+  case 31:
+#line 205 "Parser.y" /* yacc.c:1661  */
     {   
-                                                                                        Value* newValue = new Value;
-                                                                                        newValue->isArray = false;
-                                                                                        newValue->isVariable = true;
-                                                                                        newValue->isNumber = false;
-                                                                                        newValue->variable = (yyvsp[0].string);
-                                                                                        (yyval.value) = newValue; 
-                                                                                        checkIfSymbolIsDeclared((yyvsp[0].string)); 
+                                                                                        checkIfSymbolIsDeclared((yyvsp[0].string));
+                                                                                        if (symbolExists((yyvsp[0].string))){
+                                                                                            Value* newValue = new Value;
+                                                                                            newValue->isArray = false;
+                                                                                            newValue->isVariable = true;
+                                                                                            newValue->isNumber = false;
+                                                                                            newValue->variable = (yyvsp[0].string);
+                                                                                            (yyval.value) = newValue;
+                                                                                        }
                                                                                     }
-#line 1517 "Parser.tab.c" /* yacc.c:1661  */
+#line 1573 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 32:
+#line 216 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        checkIfArrayIsDeclared((yyvsp[-3].string));
+                                                                                        if (arrayExists((yyvsp[-3].string))){
+                                                                                            checkIfSymbolIsDeclared((yyvsp[-1].string));
+                                                                                            checkIfSymbolIsAssigned((yyvsp[-1].string));
+                                                                                            if(symbolExists((yyvsp[-1].string)) && wasAssigned((yyvsp[-1].string))){
+                                                                                                Value* newValue = new Value;
+                                                                                                newValue->isArray = true;
+                                                                                                newValue->isVariableIterator = true;
+                                                                                                newValue->isConstantIterator = false;
+                                                                                                newValue->isVariable = false;
+                                                                                                newValue->isNumber = false;
+                                                                                                newValue->arrayName = (yyvsp[-3].string);
+                                                                                                newValue->variableIterator = (yyvsp[-1].string);
+                                                                                                (yyval.value) = newValue;
+                                                                                            }
+                                                                                        }
+                                                                                    }
+#line 1596 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 33:
+#line 234 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        checkIfArrayIsDeclared((yyvsp[-3].string));
+                                                                                        if (arrayExists((yyvsp[-3].string))){
+                                                                                            Value* newValue = new Value;
+                                                                                            newValue->isArray = true;
+                                                                                            newValue->isVariableIterator = false;
+                                                                                            newValue->isConstantIterator = true;
+                                                                                            newValue->isVariable = false;
+                                                                                            newValue->isNumber = false;
+                                                                                            newValue->arrayName = (yyvsp[-3].string);
+                                                                                            newValue->constantIterator = stoll((yyvsp[-1].string));
+                                                                                            (yyval.value) = newValue;
+                                                                                        }
+                                                                                    }
+#line 1615 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1521 "Parser.tab.c" /* yacc.c:1661  */
+#line 1619 "Parser.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1745,7 +1843,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 182 "Parser.y" /* yacc.c:1906  */
+#line 249 "Parser.y" /* yacc.c:1906  */
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

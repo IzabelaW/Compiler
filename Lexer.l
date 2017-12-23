@@ -32,12 +32,6 @@ ID                  [_a-z]+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 %%
-\n.*                { 
-                        strcpy(linebuff, yytext+1);                        
-                        yyless(1);
-                    }
-[ \t\n\r]           ;
-
 \(                  {
                         if (comment)
                             printf("Zagnieżdżone komentarze są niedozwolone!\n");
@@ -51,11 +45,12 @@ ID                  [_a-z]+
                         else
                             comment = false;
                     }
-                    				
--{DIGIT}+		    {   if (!comment) return INVALID_NUM; }
-
-[_a-z]+[0-9]+       {   if(!comment) return INVALID_SYMBOL; }
-
+                    
+\n.*                { 
+                        strcpy(linebuff, yytext+1);                        
+                        yyless(1);
+                    }
+                    
 {DIGIT}+            {
                         if (!comment){
                             yylval.string = (yytext);
@@ -63,25 +58,18 @@ ID                  [_a-z]+
                         }
                     }
                     
-{ID}                {
-                        if (!comment){
-                            yylval.string = (yytext);
-                            return PIDENTIFIER;
-                        }
-                    }
-                    
-"["                 { if (!comment) return LEFT_SQUARE_BRACKET;                    }
-"]"                 { if (!comment) return RIGHT_SQUARE_BRACKET;                   }
-";"                 { if (!comment) return SEMICOLON;                              }
 ":="                { if (!comment) return ASSIGN;                                 }
-"+"                 { if (!comment) return ADD;                                    }
-"-"                 { if (!comment) return SUB;                                    }
-"<"                 { if (!comment) return LESS;                                   }
-"<="                { if (!comment) return LESS_EQUAL;                             }
-">"                 { if (!comment) return GREATER;                                }
-">="                { if (!comment) return GREATER_EQUAL;                          }
 "="                 { if (!comment) return EQUAL;                                  }
 "<>"                { if (!comment) return NOT_EQUAL;                              }
+"<"                 { if (!comment) return LESS;                                   }
+">"                 { if (!comment) return GREATER;                                }
+"<="                { if (!comment) return LESS_EQUAL;                             }
+">="                { if (!comment) return GREATER_EQUAL;                          }
+"["                 { if (!comment) return *yytext;                                }
+"]"                 { if (!comment) return *yytext;                                }
+"+"                 { if (!comment) return *yytext;                                    }
+"-"                 { if (!comment) return *yytext;                                    }
+";"                 { if (!comment) return *yytext;                              }
 VAR                 { if (!comment) return VAR;                                    }
 BEGIN               { if (!comment) return BEGIN_PROGRAM;                          }
 END                 { if (!comment) return END;                                    }
@@ -99,5 +87,12 @@ FROM                { if (!comment) return FROM;                                
 TO                  { if (!comment) return TO;                                     }
 DOWNTO              { if (!comment) return DOWNTO;                                 }
 ENDFOR              { if (!comment) return ENDFOR;                                 }
-.                   { if (!comment) return ERROR;                                  }
+{ID}                {
+                        if (!comment){
+                            yylval.string = (char*) strdup(yytext);
+                            return PIDENTIFIER;
+                        }
+                    }
+[ \t]+              ;
+.                   { if (!comment) printf("ERROR\n");                                  }
 %%

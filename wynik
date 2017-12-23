@@ -1,0 +1,191 @@
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+STORE 17
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+INC
+
+SHL
+
+STORE 21
+
+ZERO
+
+INC
+
+SHL
+
+STORE 10
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+INC
+
+STORE 15
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+STORE 13
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+STORE 0
+
+ZERO
+
+INC
+
+SHL
+
+INC
+
+STOREI 0
+
+LOAD 17
+
+ADD 10
+
+STORE 0
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+STOREI 0
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+INC
+
+STORE 0
+
+GET
+
+STOREI 0
+
+ZERO
+
+INC
+
+SHL
+
+SHL
+
+SHL
+
+INC
+
+SHL
+
+INC
+
+STORE 1
+
+LOAD 17
+
+ADD 10
+
+STORE 2
+
+LOADI 1
+
+SUBI 2
+
+JZERO 84
+
+JUMP 87
+
+LOADI 2
+
+SUBI 1
+
+JZERO 89
+
+ZERO
+
+JUMP 91
+
+ZERO
+
+INC
+
+JZERO 95
+ZERO
+
+INC
+
+PUT
+
+HALT
+
