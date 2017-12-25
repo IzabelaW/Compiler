@@ -17,6 +17,7 @@ using namespace std;
 
 unordered_map<string,long long> symbolMap;
 unordered_map<string,bool> assignedSymbolMap;
+
 long long offset = 10;
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -45,6 +46,10 @@ void putSymbol(string name){
 
 int getSymbol(string name){
     return symbolMap.at(name);
+}
+
+void deleteSymbol(string name){
+    symbolMap.erase(name);
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

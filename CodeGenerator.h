@@ -16,8 +16,10 @@ using namespace std;
 #include <stack>
 
 vector<string> code;
+
 stack<int> ifStack;
 stack<int> whileStack;
+stack<int> forStack;
 
 extern struct Value value; 
 
@@ -99,6 +101,19 @@ int popFromWhileStack(){
     return top;
 }
 
+void pushOnForStack(){
+    forStack.push(code.size());
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                            int popFromWhileStack() - returns value from the top of WHILE stack
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+int popFromForStack(){
+    int top = forStack.top();
+    forStack.pop();
+    return top;
+}
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                             void loadNumber(long long number) - builds a binary representation of the number with assembler code
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/

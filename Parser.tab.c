@@ -440,16 +440,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   88
+#define YYLAST   161
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  42
+#define YYNTOKENS  43
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  15
+#define YYNNTS  17
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  33
+#define YYNRULES  38
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  69
+#define YYNSTATES  87
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -467,7 +467,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    40,     2,    41,     2,     2,     2,     2,
+       2,     2,    42,    40,     2,    41,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,    39,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -497,12 +497,12 @@ static const yytype_uint8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
        0,    68,    68,    73,    74,    78,    80,    81,    83,    83,
-      98,    98,   103,   104,   103,   117,   131,   146,   146,   159,
-     165,   180,   181,   187,   188,   189,   190,   191,   192,   194,
-     203,   205,   216,   234
+      98,    98,   103,   104,   103,   115,   115,   175,   175,   235,
+     249,   264,   264,   277,   283,   298,   299,   300,   305,   306,
+     307,   308,   309,   310,   312,   321,   323,   334,   352
 };
 #endif
 
@@ -517,9 +517,9 @@ static const char *const yytname[] =
   "NOT_EQUAL", "LESS", "LESS_EQUAL", "GREATER", "GREATER_EQUAL", "IF",
   "THEN", "ELSE", "ENDIF", "WHILE", "DO", "ENDWHILE", "FOR", "FROM", "TO",
   "DOWNTO", "ENDFOR", "INVALID_NUM", "INVALID_SYMBOL", "ERROR", "'['",
-  "']'", "';'", "'+'", "'-'", "$accept", "program", "vdeclarations",
-  "commands", "command", "$@1", "$@2", "$@3", "$@4", "innerIf", "$@5",
-  "expression", "condition", "value", "identifier", YY_NULLPTR
+  "']'", "';'", "'+'", "'-'", "'*'", "$accept", "program", "vdeclarations",
+  "commands", "command", "$@1", "$@2", "$@3", "$@4", "$@5", "$@6",
+  "innerIf", "$@7", "expression", "condition", "value", "identifier", YY_NULLPTR
 };
 #endif
 
@@ -532,14 +532,14 @@ static const yytype_uint16 yytoknum[] =
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,    91,    93,    59,
-      43,    45
+      43,    45,    42
 };
 # endif
 
-#define YYPACT_NINF -41
+#define YYPACT_NINF -46
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-41)))
+  (!!((Yystate) == (-46)))
 
 #define YYTABLE_NINF -1
 
@@ -548,15 +548,17 @@ static const yytype_uint16 yytoknum[] =
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-       9,   -41,    21,     2,   -41,   -15,    50,    20,     6,    31,
-       5,     5,   -41,    53,   -41,   -41,     7,    10,     8,   -41,
-      12,   -41,    23,    67,     5,   -41,   -41,    38,   -41,    29,
-      32,   -41,   -41,   -41,     5,     5,     5,     5,     5,     5,
-      44,     5,   -41,   -41,    50,   -41,   -41,   -41,   -41,   -41,
-     -41,   -41,    19,   -24,    15,    50,   -41,     5,     5,   -41,
-     -41,   -41,    -2,   -41,   -41,    50,   -41,    56,   -41
+      12,   -46,    32,     1,   -46,    -3,   132,    34,     2,    36,
+       3,     3,   -46,    38,   106,   -46,   -46,     5,     6,     7,
+     -46,     8,   -46,    15,    -1,     3,    14,   -46,   -46,    42,
+     -46,    11,    13,   -46,   -46,   -46,     3,     3,     3,     3,
+       3,     3,    23,     3,     3,   -46,   -46,   132,   -46,   -46,
+     -46,   -46,   -46,   -46,   -46,    -4,    16,   -17,    87,   132,
+       3,     3,   -46,     3,     3,     3,   -46,   -46,   -46,   111,
+      27,    40,   -46,   -46,   -46,   132,   -46,   -46,   -46,   130,
+     132,   132,   -46,     0,    75,   -46,   -46
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -564,27 +566,29 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     5,     0,     0,     1,     3,     0,     0,    31,     0,
-       0,     0,    12,     0,     7,     8,     0,     0,     0,    29,
-       0,    30,     0,     0,     0,     2,     6,     0,     4,     0,
-       0,    15,    16,    10,     0,     0,     0,     0,     0,     0,
-       0,     0,    33,    32,     0,    23,    24,    25,    27,    26,
-      28,    13,     0,    20,     0,     0,     9,     0,     0,    17,
-      19,    11,     0,    21,    22,     0,    14,     0,    18
+       0,     5,     0,     0,     1,     3,     0,     0,    36,     0,
+       0,     0,    12,     0,     0,     7,     8,     0,     0,     0,
+      34,     0,    35,     0,     0,     0,     0,     2,     6,     0,
+       4,     0,     0,    19,    20,    10,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    38,    37,     0,    28,    29,
+      30,    32,    31,    33,    13,     0,     0,    24,     0,     0,
+       0,     0,     9,     0,     0,     0,    21,    23,    11,     0,
+       0,     0,    25,    26,    27,     0,    14,    15,    17,     0,
+       0,     0,    22,     0,     0,    16,    18
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -41,   -41,   -41,   -40,   -12,   -41,   -41,   -41,   -41,   -41,
-     -41,   -41,    49,    -5,    -6
+     -46,   -46,   -46,   -45,   -13,   -46,   -46,   -46,   -46,   -46,
+     -46,   -46,   -46,   -46,    43,    21,    -6
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,    13,    14,    27,    44,    24,    55,    61,
-      65,    52,    22,    23,    21
+      -1,     2,     3,    14,    15,    29,    47,    25,    59,    80,
+      81,    68,    75,    56,    23,    24,    22
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -592,59 +596,77 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      15,    26,     8,    18,    54,    20,     5,    15,    19,     8,
-       9,    10,     6,    29,    30,    62,    57,    58,     1,     8,
-      11,     4,     7,    16,    12,    67,    66,     9,    10,    45,
-      46,    47,    48,    49,    50,     8,    53,    11,    15,    59,
-      60,    12,    26,    17,    41,    28,    33,    31,    15,    15,
-      26,    32,    63,    64,     8,    26,    15,     8,    56,    15,
-       8,    15,     9,    10,    25,     9,    10,    42,     9,    10,
-      43,    51,    11,    40,     0,    11,    12,     0,    11,    12,
-       0,    68,    12,    34,    35,    36,    37,    38,    39
+      16,    28,    58,    19,     8,     5,    20,     8,    16,    31,
+      32,     6,     9,    10,    69,    36,    37,    38,    39,    40,
+      41,     1,    11,    63,    64,    65,    12,    60,    61,    13,
+      79,    21,     4,    85,     7,    83,    84,    17,    35,    18,
+       8,    16,    26,    30,    43,    28,    33,    34,    44,    45,
+      54,    46,    16,    16,    77,    62,    28,    48,    49,    50,
+      51,    52,    53,    16,    55,    57,    28,    78,    42,    16,
+      28,    28,     0,    16,    16,    16,     0,    16,    16,     8,
+       0,    70,    71,     0,    72,    73,    74,     9,    10,     0,
+       0,     8,     0,     0,     0,     0,     0,    11,     0,     9,
+      10,    12,     0,     0,    13,     0,     0,     0,    86,    11,
+       8,    66,    67,    12,     0,     8,    13,    27,     9,    10,
+       0,     0,     0,     9,    10,     0,     0,     0,    11,     0,
+       0,     0,    12,    11,     8,    13,     8,    12,     0,    76,
+      13,     0,     9,    10,     9,    10,     0,     0,     0,     0,
+       0,     0,    11,     0,    11,    82,    12,     0,    12,    13,
+       0,    13
 };
 
 static const yytype_int8 yycheck[] =
 {
-       6,    13,     4,     9,    44,    10,     4,    13,     3,     4,
-      12,    13,    10,     3,     4,    55,    40,    41,     9,     4,
-      22,     0,    37,     3,    26,    65,    28,    12,    13,    34,
-      35,    36,    37,    38,    39,     4,    41,    22,    44,    24,
-      25,    26,    54,    37,     6,    38,    23,    39,    54,    55,
-      62,    39,    57,    58,     4,    67,    62,     4,    39,    65,
-       4,    67,    12,    13,    11,    12,    13,    38,    12,    13,
-      38,    27,    22,    24,    -1,    22,    26,    -1,    22,    26,
-      -1,    25,    26,    16,    17,    18,    19,    20,    21
+       6,    14,    47,     9,     4,     4,     3,     4,    14,     3,
+       4,    10,    12,    13,    59,    16,    17,    18,    19,    20,
+      21,     9,    22,    40,    41,    42,    26,    31,    32,    29,
+      75,    10,     0,    33,    37,    80,    81,     3,    23,    37,
+       4,    47,     4,    38,    30,    58,    39,    39,     6,    38,
+      27,    38,    58,    59,    27,    39,    69,    36,    37,    38,
+      39,    40,    41,    69,    43,    44,    79,    27,    25,    75,
+      83,    84,    -1,    79,    80,    81,    -1,    83,    84,     4,
+      -1,    60,    61,    -1,    63,    64,    65,    12,    13,    -1,
+      -1,     4,    -1,    -1,    -1,    -1,    -1,    22,    -1,    12,
+      13,    26,    -1,    -1,    29,    -1,    -1,    -1,    33,    22,
+       4,    24,    25,    26,    -1,     4,    29,    11,    12,    13,
+      -1,    -1,    -1,    12,    13,    -1,    -1,    -1,    22,    -1,
+      -1,    -1,    26,    22,     4,    29,     4,    26,    -1,    28,
+      29,    -1,    12,    13,    12,    13,    -1,    -1,    -1,    -1,
+      -1,    -1,    22,    -1,    22,    25,    26,    -1,    26,    29,
+      -1,    29
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     9,    43,    44,     0,     4,    10,    37,     4,    12,
-      13,    22,    26,    45,    46,    56,     3,    37,    56,     3,
-      55,    56,    54,    55,    49,    11,    46,    47,    38,     3,
-       4,    39,    39,    23,    16,    17,    18,    19,    20,    21,
-      54,     6,    38,    38,    48,    55,    55,    55,    55,    55,
-      55,    27,    53,    55,    45,    50,    39,    40,    41,    24,
-      25,    51,    45,    55,    55,    52,    28,    45,    25
+       0,     9,    44,    45,     0,     4,    10,    37,     4,    12,
+      13,    22,    26,    29,    46,    47,    59,     3,    37,    59,
+       3,    58,    59,    57,    58,    50,     4,    11,    47,    48,
+      38,     3,     4,    39,    39,    23,    16,    17,    18,    19,
+      20,    21,    57,    30,     6,    38,    38,    49,    58,    58,
+      58,    58,    58,    58,    27,    58,    56,    58,    46,    51,
+      31,    32,    39,    40,    41,    42,    24,    25,    54,    46,
+      58,    58,    58,    58,    58,    55,    28,    27,    27,    46,
+      52,    53,    25,    46,    46,    33,    33
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    42,    43,    44,    44,    44,    45,    45,    47,    46,
-      48,    46,    49,    50,    46,    46,    46,    52,    51,    51,
-      53,    53,    53,    54,    54,    54,    54,    54,    54,    55,
-      55,    56,    56,    56
+       0,    43,    44,    45,    45,    45,    46,    46,    48,    47,
+      49,    47,    50,    51,    47,    52,    47,    53,    47,    47,
+      47,    55,    54,    54,    56,    56,    56,    56,    57,    57,
+      57,    57,    57,    57,    58,    58,    59,    59,    59
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     5,     2,     5,     0,     2,     1,     0,     5,
-       0,     6,     0,     0,     7,     3,     3,     0,     4,     1,
-       1,     3,     3,     3,     3,     3,     3,     3,     3,     1,
-       1,     1,     4,     4
+       0,     6,     0,     0,     7,     0,    10,     0,    10,     3,
+       3,     0,     4,     1,     1,     3,     3,     3,     3,     3,
+       3,     3,     3,     3,     1,     1,     1,     4,     4
 };
 
 
@@ -1326,13 +1348,13 @@ yyreduce:
                                                                                                             generateCode("HALT"); 
                                                                                                             printCode(); 
                                                                                                         }
-#line 1330 "Parser.tab.c" /* yacc.c:1661  */
+#line 1352 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 3:
 #line 73 "Parser.y" /* yacc.c:1661  */
     {   installIdentifier((yyvsp[0].string));          }
-#line 1336 "Parser.tab.c" /* yacc.c:1661  */
+#line 1358 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 4:
@@ -1341,7 +1363,7 @@ yyreduce:
                                                                                                             loadNumber(getSymbol((yyvsp[-3].string)) + 1);
                                                                                                             generateCodeAtAddress("STORE", getSymbol((yyvsp[-3].string)));
                                                                                                         }
-#line 1345 "Parser.tab.c" /* yacc.c:1661  */
+#line 1367 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 8:
@@ -1352,7 +1374,7 @@ yyreduce:
                                                                                             generateCodeAtAddress("STORE",0);
                                                                                         }
                                                                                     }
-#line 1356 "Parser.tab.c" /* yacc.c:1661  */
+#line 1378 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 9:
@@ -1366,7 +1388,7 @@ yyreduce:
                                                                                             assignSymbol((yyvsp[-4].value)->variable);
                                                                                         }
                                                                                     }
-#line 1370 "Parser.tab.c" /* yacc.c:1661  */
+#line 1392 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 10:
@@ -1375,13 +1397,13 @@ yyreduce:
                                                                                         pushOnIntStack();
                                                                                         generateCode("JZERO ?");
                                                                                     }
-#line 1379 "Parser.tab.c" /* yacc.c:1661  */
+#line 1401 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 12:
 #line 103 "Parser.y" /* yacc.c:1661  */
     {   pushOnWhileStack(); }
-#line 1385 "Parser.tab.c" /* yacc.c:1661  */
+#line 1407 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 13:
@@ -1390,7 +1412,7 @@ yyreduce:
                                                                                         pushOnWhileStack();
                                                                                         generateCode("JZERO ?");
                                                                                     }
-#line 1394 "Parser.tab.c" /* yacc.c:1661  */
+#line 1416 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 14:
@@ -1402,11 +1424,151 @@ yyreduce:
                                                                                         int conditionLine = popFromWhileStack();
                                                                                         generateCodeAtAddress("JUMP", conditionLine);
                                                                                     }
-#line 1406 "Parser.tab.c" /* yacc.c:1661  */
+#line 1428 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 15:
-#line 117 "Parser.y" /* yacc.c:1661  */
+#line 115 "Parser.y" /* yacc.c:1661  */
+    {   
+                                                                                        installIdentifier((yyvsp[-5].string));
+                                                                                        string endFor = strcat(strdup("KONIECFOR"),(yyvsp[-5].string));
+                                                                                        installIdentifier(endFor);
+                                                                                        
+                                                                                        if((yyvsp[-3].value)->isNumber == true)
+                                                                                            loadNumber(stoll((yyvsp[-3].value)->number));
+                                                                                        else if((yyvsp[-3].value)->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned((yyvsp[-3].value)->variable);
+                                                                                            if (wasAssigned((yyvsp[-3].value)->variable)){
+                                                                                                checkContext("LOAD", (yyvsp[-3].value)->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if((yyvsp[-3].value)->isArray == true){
+                                                                                            loadArray((yyvsp[-3].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        checkContext("STORE", (yyvsp[-5].string));
+                                                                                        assignSymbol((yyvsp[-5].string));
+                                                                                        
+                                                                                        if((yyvsp[-1].value)->isNumber == true)
+                                                                                            loadNumber(stoll((yyvsp[-1].value)->number));
+                                                                                        else if((yyvsp[-1].value)->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned((yyvsp[-1].value)->variable);
+                                                                                            if (wasAssigned((yyvsp[-1].value)->variable)){
+                                                                                                checkContext("LOAD", (yyvsp[-1].value)->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if((yyvsp[-1].value)->isArray == true){
+                                                                                            loadArray((yyvsp[-1].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        generateCode("INC");
+                                                                                        checkContext("SUB", (yyvsp[-5].string));
+                                                                                        checkContext("STORE", endFor);
+                                                                                        
+                                                                                        pushOnForStack();
+                                                                                        checkContext("LOAD", endFor);
+                                                                                        pushOnForStack();
+                                                                                        generateCode("JZERO ?");
+                                                                                    }
+#line 1476 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 16:
+#line 158 "Parser.y" /* yacc.c:1661  */
+    {   
+                                                                                        
+                                                                                        checkContext("LOAD", strcat(strdup("KONIECFOR"),(yyvsp[-8].string)));
+                                                                                        generateCode("DEC");
+                                                                                        checkContext("STORE", strcat(strdup("KONIECFOR"),(yyvsp[-8].string)));
+                                                                                        checkContext("LOAD", (yyvsp[-8].string));
+                                                                                        generateCode("INC");
+                                                                                        checkContext("STORE", (yyvsp[-8].string));
+                                                                                        
+                                                                                        int index  = popFromForStack();
+                                                                                        int endLine = getNumberOfAsmInstructions()+1;
+                                                                                        changeCodeAtLine("JZERO " + to_string(endLine), index);
+                                                                                        int conditionLine = popFromForStack();
+                                                                                        generateCodeAtAddress("JUMP", conditionLine);
+                                                                                        deleteSymbol((yyvsp[-8].string));
+                                                                                        deleteSymbol(strcat(strdup("KONIECFOR"),(yyvsp[-8].string)));
+                                                                                    }
+#line 1498 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 17:
+#line 175 "Parser.y" /* yacc.c:1661  */
+    {
+                                                                                        installIdentifier((yyvsp[-5].string));
+                                                                                        string endFor = strcat(strdup("KONIECFOR"),(yyvsp[-5].string));
+                                                                                        installIdentifier(endFor);
+                                                                                        
+                                                                                        if((yyvsp[-3].value)->isNumber == true)
+                                                                                            loadNumber(stoll((yyvsp[-3].value)->number));
+                                                                                        else if((yyvsp[-3].value)->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned((yyvsp[-3].value)->variable);
+                                                                                            if (wasAssigned((yyvsp[-3].value)->variable)){
+                                                                                                checkContext("LOAD", (yyvsp[-3].value)->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if((yyvsp[-3].value)->isArray == true){
+                                                                                            loadArray((yyvsp[-3].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        checkContext("STORE", (yyvsp[-5].string));
+                                                                                        assignSymbol((yyvsp[-5].string));
+                                                                                        
+                                                                                        if((yyvsp[-1].value)->isNumber == true)
+                                                                                            loadNumber(stoll((yyvsp[-1].value)->number));
+                                                                                        else if((yyvsp[-1].value)->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned((yyvsp[-1].value)->variable);
+                                                                                            if (wasAssigned((yyvsp[-1].value)->variable)){
+                                                                                                checkContext("LOAD", (yyvsp[-1].value)->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if((yyvsp[-1].value)->isArray == true){
+                                                                                            loadArray((yyvsp[-1].value));
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        generateCodeAtAddress("STORE",3); //ZMIANA 3
+                                                                                        checkContext("LOAD", (yyvsp[-5].string));                                                                               generateCode("INC");
+                                                                                        generateCodeAtAddress("SUB", 3); //ZMIANA 3
+                                                                                        checkContext("STORE", endFor);
+                                                                                        
+                                                                                        pushOnForStack();
+                                                                                        checkContext("LOAD", endFor);
+                                                                                        pushOnForStack();
+                                                                                        generateCode("JZERO ?");
+                                                                                    }
+#line 1547 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 18:
+#line 219 "Parser.y" /* yacc.c:1661  */
+    {   
+                                                                                        checkContext("LOAD", strcat(strdup("KONIECFOR"),(yyvsp[-8].string)));
+                                                                                        generateCode("DEC");
+                                                                                        checkContext("STORE", strcat(strdup("KONIECFOR"),(yyvsp[-8].string)));
+                                                                                        checkContext("LOAD", (yyvsp[-8].string));
+                                                                                        generateCode("DEC");
+                                                                                        checkContext("STORE", (yyvsp[-8].string));
+                                                                                        
+                                                                                        int index  = popFromForStack();
+                                                                                        int endLine = getNumberOfAsmInstructions()+1;
+                                                                                        changeCodeAtLine("JZERO " + to_string(endLine), index);
+                                                                                        int conditionLine = popFromForStack();
+                                                                                        generateCodeAtAddress("JUMP", conditionLine);
+                                                                                        deleteSymbol((yyvsp[-8].string));
+                                                                                        deleteSymbol(strcat(strdup("KONIECFOR"),(yyvsp[-8].string)));
+                                                                                    }
+#line 1568 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 19:
+#line 235 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         if((yyvsp[-1].value)->isArray == true){
                                                                                             loadArray((yyvsp[-1].value));
@@ -1421,11 +1583,11 @@ yyreduce:
                                                                                             generateCodeAtAddress("STOREI",0);
                                                                                         }
                                                                                     }
-#line 1425 "Parser.tab.c" /* yacc.c:1661  */
+#line 1587 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 16:
-#line 131 "Parser.y" /* yacc.c:1661  */
+  case 20:
+#line 249 "Parser.y" /* yacc.c:1661  */
     { 
                                                                                         if((yyvsp[-1].value)->isVariable == true){
                                                                                             checkIfSymbolIsAssigned((yyvsp[-1].value)->variable);
@@ -1440,11 +1602,11 @@ yyreduce:
                                                                                         }
                                                                                         generateCode("PUT");
                                                                                     }
-#line 1444 "Parser.tab.c" /* yacc.c:1661  */
+#line 1606 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 17:
-#line 146 "Parser.y" /* yacc.c:1661  */
+  case 21:
+#line 264 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         int index  = popFromIntStack();
                                                                                         pushOnIntStack();
@@ -1452,31 +1614,31 @@ yyreduce:
                                                                                         int actualLine = getNumberOfAsmInstructions();
                                                                                         changeCodeAtLine("JZERO " + to_string(actualLine), index);
                                                                                     }
-#line 1456 "Parser.tab.c" /* yacc.c:1661  */
+#line 1618 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 18:
-#line 154 "Parser.y" /* yacc.c:1661  */
+  case 22:
+#line 272 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         int index  = popFromIntStack();
                                                                                         int actualLine = getNumberOfAsmInstructions();
                                                                                         changeCodeAtLine("JUMP " + to_string(actualLine), index);
                                                                                     }
-#line 1466 "Parser.tab.c" /* yacc.c:1661  */
+#line 1628 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 19:
-#line 159 "Parser.y" /* yacc.c:1661  */
+  case 23:
+#line 277 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         int index  = popFromIntStack();
                                                                                         int actualLine = getNumberOfAsmInstructions();
                                                                                         changeCodeAtLine("JZERO " + to_string(actualLine), index);
                                                                                     }
-#line 1476 "Parser.tab.c" /* yacc.c:1661  */
+#line 1638 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 20:
-#line 165 "Parser.y" /* yacc.c:1661  */
+  case 24:
+#line 283 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         if ((yyvsp[0].value)->isNumber == true)
                                                                                             loadNumber(stoll((yyvsp[0].value)->number));
@@ -1492,59 +1654,65 @@ yyreduce:
                                                                                             generateCodeAtAddress("LOADI",0);
                                                                                         }
                                                                                     }
-#line 1496 "Parser.tab.c" /* yacc.c:1661  */
-    break;
-
-  case 21:
-#line 180 "Parser.y" /* yacc.c:1661  */
-    {   addValues((yyvsp[-2].value), (yyvsp[0].value)); }
-#line 1502 "Parser.tab.c" /* yacc.c:1661  */
-    break;
-
-  case 22:
-#line 181 "Parser.y" /* yacc.c:1661  */
-    {   subValues((yyvsp[-2].value), (yyvsp[0].value)); }
-#line 1508 "Parser.tab.c" /* yacc.c:1661  */
-    break;
-
-  case 23:
-#line 187 "Parser.y" /* yacc.c:1661  */
-    {   equal((yyvsp[-2].value), (yyvsp[0].value));            }
-#line 1514 "Parser.tab.c" /* yacc.c:1661  */
-    break;
-
-  case 24:
-#line 188 "Parser.y" /* yacc.c:1661  */
-    {   notEqual((yyvsp[-2].value), (yyvsp[0].value));         }
-#line 1520 "Parser.tab.c" /* yacc.c:1661  */
+#line 1658 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 25:
-#line 189 "Parser.y" /* yacc.c:1661  */
-    {   lessThan((yyvsp[-2].value), (yyvsp[0].value));         }
-#line 1526 "Parser.tab.c" /* yacc.c:1661  */
+#line 298 "Parser.y" /* yacc.c:1661  */
+    {   addValues((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1664 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 26:
-#line 190 "Parser.y" /* yacc.c:1661  */
-    {   greaterThan((yyvsp[-2].value), (yyvsp[0].value));      }
-#line 1532 "Parser.tab.c" /* yacc.c:1661  */
+#line 299 "Parser.y" /* yacc.c:1661  */
+    {   subValues((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1670 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 27:
-#line 191 "Parser.y" /* yacc.c:1661  */
-    {   lessEqualThan((yyvsp[-2].value), (yyvsp[0].value));    }
-#line 1538 "Parser.tab.c" /* yacc.c:1661  */
+#line 300 "Parser.y" /* yacc.c:1661  */
+    {   multiplyValues((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1676 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 28:
-#line 192 "Parser.y" /* yacc.c:1661  */
-    {   greaterEqualThan((yyvsp[-2].value), (yyvsp[0].value)); }
-#line 1544 "Parser.tab.c" /* yacc.c:1661  */
+#line 305 "Parser.y" /* yacc.c:1661  */
+    {   equal((yyvsp[-2].value), (yyvsp[0].value));            }
+#line 1682 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
   case 29:
-#line 194 "Parser.y" /* yacc.c:1661  */
+#line 306 "Parser.y" /* yacc.c:1661  */
+    {   notEqual((yyvsp[-2].value), (yyvsp[0].value));         }
+#line 1688 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 30:
+#line 307 "Parser.y" /* yacc.c:1661  */
+    {   lessThan((yyvsp[-2].value), (yyvsp[0].value));         }
+#line 1694 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 31:
+#line 308 "Parser.y" /* yacc.c:1661  */
+    {   greaterThan((yyvsp[-2].value), (yyvsp[0].value));      }
+#line 1700 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 32:
+#line 309 "Parser.y" /* yacc.c:1661  */
+    {   lessEqualThan((yyvsp[-2].value), (yyvsp[0].value));    }
+#line 1706 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 33:
+#line 310 "Parser.y" /* yacc.c:1661  */
+    {   greaterEqualThan((yyvsp[-2].value), (yyvsp[0].value)); }
+#line 1712 "Parser.tab.c" /* yacc.c:1661  */
+    break;
+
+  case 34:
+#line 312 "Parser.y" /* yacc.c:1661  */
     {   
                                                                                         Value* newValue = new Value;
                                                                                         newValue->isArray = false;
@@ -1553,11 +1721,11 @@ yyreduce:
                                                                                         newValue->number = (yyvsp[0].string);
                                                                                         (yyval.value) = newValue;
                                                                                     }
-#line 1557 "Parser.tab.c" /* yacc.c:1661  */
+#line 1725 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 31:
-#line 205 "Parser.y" /* yacc.c:1661  */
+  case 36:
+#line 323 "Parser.y" /* yacc.c:1661  */
     {   
                                                                                         checkIfSymbolIsDeclared((yyvsp[0].string));
                                                                                         if (symbolExists((yyvsp[0].string))){
@@ -1569,11 +1737,11 @@ yyreduce:
                                                                                             (yyval.value) = newValue;
                                                                                         }
                                                                                     }
-#line 1573 "Parser.tab.c" /* yacc.c:1661  */
+#line 1741 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 32:
-#line 216 "Parser.y" /* yacc.c:1661  */
+  case 37:
+#line 334 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         checkIfArrayIsDeclared((yyvsp[-3].string));
                                                                                         if (arrayExists((yyvsp[-3].string))){
@@ -1592,11 +1760,11 @@ yyreduce:
                                                                                             }
                                                                                         }
                                                                                     }
-#line 1596 "Parser.tab.c" /* yacc.c:1661  */
+#line 1764 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
-  case 33:
-#line 234 "Parser.y" /* yacc.c:1661  */
+  case 38:
+#line 352 "Parser.y" /* yacc.c:1661  */
     {
                                                                                         checkIfArrayIsDeclared((yyvsp[-3].string));
                                                                                         if (arrayExists((yyvsp[-3].string))){
@@ -1611,11 +1779,11 @@ yyreduce:
                                                                                             (yyval.value) = newValue;
                                                                                         }
                                                                                     }
-#line 1615 "Parser.tab.c" /* yacc.c:1661  */
+#line 1783 "Parser.tab.c" /* yacc.c:1661  */
     break;
 
 
-#line 1619 "Parser.tab.c" /* yacc.c:1661  */
+#line 1787 "Parser.tab.c" /* yacc.c:1661  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1843,7 +2011,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 249 "Parser.y" /* yacc.c:1906  */
+#line 367 "Parser.y" /* yacc.c:1906  */
 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

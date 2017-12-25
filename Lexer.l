@@ -67,9 +67,10 @@ ID                  [_a-z]+
 ">="                { if (!comment) return GREATER_EQUAL;                          }
 "["                 { if (!comment) return *yytext;                                }
 "]"                 { if (!comment) return *yytext;                                }
-"+"                 { if (!comment) return *yytext;                                    }
-"-"                 { if (!comment) return *yytext;                                    }
-";"                 { if (!comment) return *yytext;                              }
+"+"                 { if (!comment) return *yytext;                                }
+"-"                 { if (!comment) return *yytext;                                }
+"*"                 { if (!comment) return *yytext;                                }
+";"                 { if (!comment) return *yytext;                                }
 VAR                 { if (!comment) return VAR;                                    }
 BEGIN               { if (!comment) return BEGIN_PROGRAM;                          }
 END                 { if (!comment) return END;                                    }

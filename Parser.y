@@ -112,8 +112,126 @@ command:                    identifier                                          
                                                                                         int conditionLine = popFromWhileStack();
                                                                                         generateCodeAtAddress("JUMP", conditionLine);
                                                                                     }
-/*                            | FOR pidentifier FROM value TO value DO commands ENDFOR
-                            | FOR pidentifier FROM value DOWNTO value DO commands ENDFOR*/
+                            | FOR PIDENTIFIER FROM value TO value DO                {   
+                                                                                        installIdentifier($2);
+                                                                                        string endFor = strcat(strdup("KONIECFOR"),$2);
+                                                                                        installIdentifier(endFor);
+                                                                                        
+                                                                                        if($4->isNumber == true)
+                                                                                            loadNumber(stoll($4->number));
+                                                                                        else if($4->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned($4->variable);
+                                                                                            if (wasAssigned($4->variable)){
+                                                                                                checkContext("LOAD", $4->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if($4->isArray == true){
+                                                                                            loadArray($4);
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        checkContext("STORE", $2);
+                                                                                        assignSymbol($2);
+                                                                                        
+                                                                                        if($6->isNumber == true)
+                                                                                            loadNumber(stoll($6->number));
+                                                                                        else if($6->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned($6->variable);
+                                                                                            if (wasAssigned($6->variable)){
+                                                                                                checkContext("LOAD", $6->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if($6->isArray == true){
+                                                                                            loadArray($6);
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        generateCode("INC");
+                                                                                        checkContext("SUB", $2);
+                                                                                        checkContext("STORE", endFor);
+                                                                                        
+                                                                                        pushOnForStack();
+                                                                                        checkContext("LOAD", endFor);
+                                                                                        pushOnForStack();
+                                                                                        generateCode("JZERO ?");
+                                                                                    }
+                              commands ENDFOR                                       {   
+                                                                                        
+                                                                                        checkContext("LOAD", strcat(strdup("KONIECFOR"),$2));
+                                                                                        generateCode("DEC");
+                                                                                        checkContext("STORE", strcat(strdup("KONIECFOR"),$2));
+                                                                                        checkContext("LOAD", $2);
+                                                                                        generateCode("INC");
+                                                                                        checkContext("STORE", $2);
+                                                                                        
+                                                                                        int index  = popFromForStack();
+                                                                                        int endLine = getNumberOfAsmInstructions()+1;
+                                                                                        changeCodeAtLine("JZERO " + to_string(endLine), index);
+                                                                                        int conditionLine = popFromForStack();
+                                                                                        generateCodeAtAddress("JUMP", conditionLine);
+                                                                                        deleteSymbol($2);
+                                                                                        deleteSymbol(strcat(strdup("KONIECFOR"),$2));
+                                                                                    }
+                            | FOR PIDENTIFIER FROM value DOWNTO value DO            {
+                                                                                        installIdentifier($2);
+                                                                                        string endFor = strcat(strdup("KONIECFOR"),$2);
+                                                                                        installIdentifier(endFor);
+                                                                                        
+                                                                                        if($4->isNumber == true)
+                                                                                            loadNumber(stoll($4->number));
+                                                                                        else if($4->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned($4->variable);
+                                                                                            if (wasAssigned($4->variable)){
+                                                                                                checkContext("LOAD", $4->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if($4->isArray == true){
+                                                                                            loadArray($4);
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        checkContext("STORE", $2);
+                                                                                        assignSymbol($2);
+                                                                                        
+                                                                                        if($6->isNumber == true)
+                                                                                            loadNumber(stoll($6->number));
+                                                                                        else if($6->isVariable == true){
+                                                                                            checkIfSymbolIsAssigned($6->variable);
+                                                                                            if (wasAssigned($6->variable)){
+                                                                                                checkContext("LOAD", $6->variable);
+                                                                                            }
+                                                                                        }
+                                                                                        else if($6->isArray == true){
+                                                                                            loadArray($6);
+                                                                                            generateCodeAtAddress("STORE",0);
+                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                        }
+                                                                                        generateCodeAtAddress("STORE",3); //ZMIANA 3
+                                                                                        checkContext("LOAD", $2);                                                                               generateCode("INC");
+                                                                                        generateCodeAtAddress("SUB", 3); //ZMIANA 3
+                                                                                        checkContext("STORE", endFor);
+                                                                                        
+                                                                                        pushOnForStack();
+                                                                                        checkContext("LOAD", endFor);
+                                                                                        pushOnForStack();
+                                                                                        generateCode("JZERO ?");
+                                                                                    }
+                              commands ENDFOR                                       {   
+                                                                                        checkContext("LOAD", strcat(strdup("KONIECFOR"),$2));
+                                                                                        generateCode("DEC");
+                                                                                        checkContext("STORE", strcat(strdup("KONIECFOR"),$2));
+                                                                                        checkContext("LOAD", $2);
+                                                                                        generateCode("DEC");
+                                                                                        checkContext("STORE", $2);
+                                                                                        
+                                                                                        int index  = popFromForStack();
+                                                                                        int endLine = getNumberOfAsmInstructions()+1;
+                                                                                        changeCodeAtLine("JZERO " + to_string(endLine), index);
+                                                                                        int conditionLine = popFromForStack();
+                                                                                        generateCodeAtAddress("JUMP", conditionLine);
+                                                                                        deleteSymbol($2);
+                                                                                        deleteSymbol(strcat(strdup("KONIECFOR"),$2));
+                                                                                    }
                             | READ identifier ';'                                   {
                                                                                         if($2->isArray == true){
                                                                                             loadArray($2);
@@ -179,9 +297,9 @@ expression:                 value                                               
                                                                                     }
                             | value '+' value                                       {   addValues($1, $3); }
                             | value '-' value                                       {   subValues($1, $3); }
+                            | value '*' value                                       {   multiplyValues($1, $3); }
                             ;
-/*                          | value '*' value
-                            | value '/' value
+/*                            | value '/' value
                             | value '%' value
                             ; */
 condition:                  value EQUAL value                                       {   equal($1, $3);            }
