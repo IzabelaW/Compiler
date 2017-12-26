@@ -1,8 +1,8 @@
 VAR
-    a b c sito[100]
+    a b c
 BEGIN
-    a := 1;
-    FOR i FROM 10 DOWNTO 2 DO
-        sito[i] := 1;
-    ENDFOR
+    a := 3;
+    b := 2;
+    c := a % b;
+    WRITE c;
 END

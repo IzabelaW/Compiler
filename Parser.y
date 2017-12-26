@@ -90,7 +90,7 @@ command:                    identifier                                          
                                                                                         if ($1->isArray == true){
                                                                                             generateCodeAtAddress("STOREI",0);
                                                                                         }
-                                                                                        if ($1->isVariable == true){
+                                                                                        else if ($1->isVariable == true){
                                                                                             checkContext("STORE", $1->variable);
                                                                                             assignSymbol($1->variable);
                                                                                         }
@@ -291,17 +291,16 @@ expression:                 value                                               
                                                                                         }
                                                                                         else if ($1->isArray == true){
                                                                                             loadArray($1);
-                                                                                            generateCodeAtAddress("STORE",0);
-                                                                                            generateCodeAtAddress("LOADI",0);
+                                                                                            generateCodeAtAddress("STORE",1);
+                                                                                            generateCodeAtAddress("LOADI",1);
                                                                                         }
                                                                                     }
-                            | value '+' value                                       {   addValues($1, $3); }
-                            | value '-' value                                       {   subValues($1, $3); }
+                            | value '+' value                                       {   addValues($1, $3);      }
+                            | value '-' value                                       {   subValues($1, $3);      }
                             | value '*' value                                       {   multiplyValues($1, $3); }
-                            ;
-/*                            | value '/' value
-                            | value '%' value
-                            ; */
+                            | value '/' value                                       {   divideValues($1, $3);   }
+                            | value '%' value                                       {   moduloValues($1, $3);   } 
+                            ; 
 condition:                  value EQUAL value                                       {   equal($1, $3);            }
                             | value NOT_EQUAL value                                 {   notEqual($1, $3);         }
                             | value LESS value                                      {   lessThan($1, $3);         }

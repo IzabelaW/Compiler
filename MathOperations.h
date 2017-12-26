@@ -148,26 +148,6 @@ void multiplyValues(Value* a, Value* b){
         
         checkContext("LOAD", b->variable);
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isVariable == true && b->isNumber == true){
         checkIfSymbolIsAssigned(a->variable);
@@ -177,26 +157,6 @@ void multiplyValues(Value* a, Value* b){
         
         loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isNumber == true && b->isVariable == true){
         checkIfSymbolIsAssigned(b->variable);
@@ -206,29 +166,10 @@ void multiplyValues(Value* a, Value* b){
         
         checkContext("LOAD", b->variable);
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isNumber == true && b->isNumber == true){
         loadNumber(stoll(a->number) * stoll(b->number));
+        return;
     }
     else if (a->isArray == true && b->isNumber == true){
         loadArray(a);
@@ -238,26 +179,6 @@ void multiplyValues(Value* a, Value* b){
         
         loadNumber(stoll(b->number));
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isNumber == true && b->isArray == true){        
         loadNumber(stoll(a->number));
@@ -267,26 +188,6 @@ void multiplyValues(Value* a, Value* b){
         generateCodeAtAddress("STORE", 1);
         generateCodeAtAddress("LOADI", 1);
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isArray == true && b->isVariable == true){
         checkIfSymbolIsAssigned(b->variable);
@@ -298,26 +199,6 @@ void multiplyValues(Value* a, Value* b){
         
         checkContext("LOAD", b->variable);
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isVariable == true && b->isArray == true){
         checkIfSymbolIsAssigned(a->variable);
@@ -329,26 +210,6 @@ void multiplyValues(Value* a, Value* b){
         generateCodeAtAddress("STORE", 1);
         generateCodeAtAddress("LOADI", 1);
         generateCodeAtAddress("STORE", 5);
-        
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        
-        startLine = getNumberOfAsmInstructions();
-        generateCodeAtAddress("LOAD", 4);
-        generateCodeAtAddress("JZERO", startLine + 14);
-        generateCodeAtAddress("JODD", startLine + 4);
-        generateCodeAtAddress("JUMP", startLine + 7);
-        generateCodeAtAddress("LOAD", 6);
-        generateCodeAtAddress("ADD", 5);
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("LOAD", 4);
-        generateCode("SHR");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("LOAD", 5);
-        generateCode("SHL");
-        generateCodeAtAddress("STORE", 5);
-        generateCodeAtAddress("JUMP", startLine);
-        generateCodeAtAddress("LOAD", 6);
     }
     else if (a->isArray == true && b->isArray == true){
         loadArray(a);
@@ -360,7 +221,7 @@ void multiplyValues(Value* a, Value* b){
         generateCodeAtAddress("STORE", 2);
         generateCodeAtAddress("LOADI", 2);
         generateCodeAtAddress("STORE", 5);
-        
+    }
         generateCode("ZERO");
         generateCodeAtAddress("STORE", 6);
         
@@ -380,7 +241,299 @@ void multiplyValues(Value* a, Value* b){
         generateCodeAtAddress("STORE", 5);
         generateCodeAtAddress("JUMP", startLine);
         generateCodeAtAddress("LOAD", 6);
+}
+
+void divideValues(Value* a, Value* b){
+    int startLine;
+    int conditionLine;
+    int jzeroLine;
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        
+        checkContext("LOAD", a->variable);
+        generateCodeAtAddress("STORE", 4);
+        
+        checkContext("LOAD", b->variable);
+        generateCodeAtAddress("STORE", 5);           
     }
+    else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        
+        checkContext("LOAD", a->variable);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadNumber(stoll(b->number));
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        
+        loadNumber(stoll(a->number));
+        generateCodeAtAddress("STORE", 4);
+        
+        checkContext("LOAD", b->variable);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isNumber == true && b->isNumber == true){
+        loadNumber(stoll(a->number) / stoll(b->number));
+        return;
+    }
+    else if (a->isArray == true && b->isNumber == true){
+        loadArray(a);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadNumber(stoll(b->number));
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isNumber == true && b->isArray == true){        
+        loadNumber(stoll(a->number));
+        generateCodeAtAddress("STORE", 4);
+        
+        loadArray(b);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isArray == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+
+        loadArray(a);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 4);
+        
+        checkContext("LOAD", b->variable);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isVariable == true && b->isArray == true){
+        checkIfSymbolIsAssigned(a->variable);
+        
+        checkContext("LOAD", a->variable);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadArray(b);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isArray == true && b->isArray == true){
+        loadArray(a);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadArray(b);
+        generateCodeAtAddress("STORE", 2);
+        generateCodeAtAddress("LOADI", 2);
+        generateCodeAtAddress("STORE", 5);
+    }
+        generateCode("ZERO");
+        generateCodeAtAddress("STORE", 6);
+        
+        generateCode("ZERO");
+        generateCodeAtAddress("STORE", 7);
+        
+        startLine = getNumberOfAsmInstructions();
+        generateCodeAtAddress("LOAD", 4);
+        generateCode("INC");
+        generateCodeAtAddress("SUB", 5);
+        generateCodeAtAddress("JZERO", startLine + 11);
+        generateCodeAtAddress("LOAD", 7);
+        generateCode("INC");
+        generateCodeAtAddress("STORE", 7);
+        generateCodeAtAddress("LOAD", 5);
+        generateCode("SHL");
+        generateCodeAtAddress("STORE", 5);
+        generateCodeAtAddress("JUMP", startLine);
+        generateCodeAtAddress("LOAD", 5);
+        generateCode("SHR");
+        generateCodeAtAddress("STORE", 5);
+        
+        installIdentifier("ITERATOR-DZIELENIA-k");
+        string endFor = "KONIEC-DZIELENIA";
+        installIdentifier(endFor);
+        generateCode("ZERO");
+        generateCode("INC");
+        checkContext("STORE", "ITERATOR-DZIELENIA-k");
+        generateCodeAtAddress("LOAD", 7);
+        generateCode("INC");
+        checkContext("SUB", "ITERATOR-DZIELENIA-k");
+        checkContext("STORE", endFor);
+        checkContext("LOAD", endFor);
+        generateCodeAtAddress("JZERO", startLine + 48);
+        generateCodeAtAddress("LOAD", 4);            
+        generateCode("INC");            
+        generateCodeAtAddress("SUB", 5);            
+        generateCodeAtAddress("JZERO", startLine + 35);
+        generateCodeAtAddress("LOAD", 4);            
+        generateCodeAtAddress("SUB", 5);            
+        generateCodeAtAddress("STORE", 4);            
+        generateCodeAtAddress("LOAD", 6);
+        generateCode("SHL");
+        generateCode("INC");
+        generateCodeAtAddress("STORE", 6);            
+        generateCodeAtAddress("JUMP", startLine + 38);            
+        generateCodeAtAddress("LOAD", 6);            
+        generateCode("SHL");            
+        generateCodeAtAddress("STORE", 6);            
+        generateCodeAtAddress("LOAD", 5);            
+        generateCode("SHR");            
+        generateCodeAtAddress("STORE", 5);
+        checkContext("LOAD", endFor);
+        generateCode("DEC");
+        checkContext("STORE", endFor);
+        checkContext("LOAD", "ITERATOR-DZIELENIA-k");
+        generateCode("INC");
+        checkContext("STORE", "ITERATOR-DZIELENIA-k");
+        generateCodeAtAddress("JUMP", startLine + 21);            
+        generateCodeAtAddress("LOAD", 6);    
+    
+        deleteSymbol("ITERATOR-DZIELENIA-k");
+        deleteSymbol("KONIEC-DZIELENIA");
+}
+
+void moduloValues(Value* a, Value* b){
+    int startLine;
+    int conditionLine;
+    int jzeroLine;
+    if (a->isVariable == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(a->variable);
+        checkIfSymbolIsAssigned(b->variable);
+        
+        checkContext("LOAD", a->variable);
+        generateCodeAtAddress("STORE", 4);
+        
+        checkContext("LOAD", b->variable);
+        generateCodeAtAddress("STORE", 5);           
+    }
+    else if (a->isVariable == true && b->isNumber == true){
+        checkIfSymbolIsAssigned(a->variable);
+        
+        checkContext("LOAD", a->variable);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadNumber(stoll(b->number));
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isNumber == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+        
+        loadNumber(stoll(a->number));
+        generateCodeAtAddress("STORE", 4);
+        
+        checkContext("LOAD", b->variable);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isNumber == true && b->isNumber == true){
+        loadNumber(stoll(a->number) % stoll(b->number));
+        return;
+    }
+    else if (a->isArray == true && b->isNumber == true){
+        loadArray(a);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadNumber(stoll(b->number));
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isNumber == true && b->isArray == true){        
+        loadNumber(stoll(a->number));
+        generateCodeAtAddress("STORE", 4);
+        
+        loadArray(b);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isArray == true && b->isVariable == true){
+        checkIfSymbolIsAssigned(b->variable);
+
+        loadArray(a);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 4);
+        
+        checkContext("LOAD", b->variable);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isVariable == true && b->isArray == true){
+        checkIfSymbolIsAssigned(a->variable);
+        
+        checkContext("LOAD", a->variable);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadArray(b);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 5);
+    }
+    else if (a->isArray == true && b->isArray == true){
+        loadArray(a);
+        generateCodeAtAddress("STORE", 1);
+        generateCodeAtAddress("LOADI", 1);
+        generateCodeAtAddress("STORE", 4);
+        
+        loadArray(b);
+        generateCodeAtAddress("STORE", 2);
+        generateCodeAtAddress("LOADI", 2);
+        generateCodeAtAddress("STORE", 5);
+    }   
+        generateCode("ZERO");
+        generateCodeAtAddress("STORE", 7);
+        
+        startLine = getNumberOfAsmInstructions();
+        generateCodeAtAddress("LOAD", 4);
+        generateCode("INC");
+        generateCodeAtAddress("SUB", 5);
+        generateCodeAtAddress("JZERO", startLine + 11);
+        generateCodeAtAddress("LOAD", 7);
+        generateCode("INC");
+        generateCodeAtAddress("STORE", 7);
+        generateCodeAtAddress("LOAD", 5);
+        generateCode("SHL");
+        generateCodeAtAddress("STORE", 5);
+        generateCodeAtAddress("JUMP", startLine);
+        generateCodeAtAddress("LOAD", 5);
+        generateCode("SHR");
+        generateCodeAtAddress("STORE", 5);
+        
+        installIdentifier("ITERATOR-DZIELENIA-k");
+        string endFor = "KONIEC-DZIELENIA";
+        installIdentifier(endFor);
+        generateCode("ZERO");
+        generateCode("INC");
+        checkContext("STORE", "ITERATOR-DZIELENIA-k");
+        generateCodeAtAddress("LOAD", 7);
+        generateCode("INC");
+        checkContext("SUB", "ITERATOR-DZIELENIA-k");
+        checkContext("STORE", endFor);
+        checkContext("LOAD", endFor);
+        generateCodeAtAddress("JZERO", startLine + 40);
+        generateCodeAtAddress("LOAD", 4);            
+        generateCode("INC");            
+        generateCodeAtAddress("SUB", 5);            
+        generateCodeAtAddress("JZERO", startLine + 30);
+        generateCodeAtAddress("LOAD", 4);            
+        generateCodeAtAddress("SUB", 5);            
+        generateCodeAtAddress("STORE", 4);                       
+        generateCodeAtAddress("LOAD", 5);            
+        generateCode("SHR");            
+        generateCodeAtAddress("STORE", 5);
+        checkContext("LOAD", endFor);
+        generateCode("DEC");
+        checkContext("STORE", endFor);
+        checkContext("LOAD", "ITERATOR-DZIELENIA-k");
+        generateCode("INC");
+        checkContext("STORE", "ITERATOR-DZIELENIA-k");
+        generateCodeAtAddress("JUMP", startLine + 21);            
+        generateCodeAtAddress("LOAD", 4);    
+    
+        deleteSymbol("ITERATOR-DZIELENIA-k");
+        deleteSymbol("KONIEC-DZIELENIA");
 }
 
 #endif

@@ -1,11 +1,19 @@
+( sito Eratostenesa )
 VAR
-a b
+    n j sito[100]
 BEGIN
-    FOR i FROM 10 TO 15 DO
-        WRITE i;
-        FOR j FROM 1 TO 4 DO
-            WRITE j;
-        ENDFOR
-        WRITE i;
+    n := 100-1;
+    FOR i FROM n DOWNTO 2 DO
+        sito[i] := 1;
+    ENDFOR
+    FOR i FROM 2 TO n DO
+        IF sito[i] <> 0 THEN
+            j := i + i;
+            WHILE j <= n DO
+                sito[j] := 0;
+                j := j + i;
+            ENDWHILE
+            WRITE i;
+        ENDIF
     ENDFOR
 END
