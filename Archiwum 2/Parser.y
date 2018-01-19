@@ -71,29 +71,13 @@ program:                    VAR vdeclarations BEGIN_PROGRAM commands END        
                                                                                                             printCode(); 
                                                                                                         }
                             ;
-vdeclarations:              vdeclarations PIDENTIFIER                                                   {   installIdentifier($2);
-
-                                                                                                            Value* newValue = new Value;
-                                                                                                            newValue->isArray = false;
-                                                                                                            newValue->isVariable = true;
-                                                                                                            newValue->isNumber = false;
-                                                                                                            newValue->variable = $2;
-                                                                                                            declareSymbol($2, newValue);
-                                                                                                        }
+vdeclarations:              vdeclarations PIDENTIFIER                                                   {   installIdentifier($2);          }
                             | vdeclarations PIDENTIFIER'['NUM']'                                        {   
-                                                                                                            string str($4);
-                                                                                                            installArray($2, stoll(str));
-                                                                                                            
-                                                                                                            Value* newValue = new Value;
-                                                                                                            newValue->isArray = true;
-                                                                                                            newValue->isVariable = false;
-                                                                                                            newValue->isNumber = false;
-                                                                                                            newValue->arrayName = $2;
-                                                                                                            declareSymbol($2, newValue);
-                                                                                                            
-                                                                                                            loadNumber(getSymbol($2) + 1);
-                                                                                                            generateCodeAtAddress("STORE", getSymbol($2));
-                                                                                                        }
+                                                                                                            string arrayName = strcat(strdup("ARRAY"),$2);
+                                                                                                            installArray(arrayName, stoll($4));    
+                                                                                                            loadNumber(getSymbol(arrayName) + 1);
+                                                                                                            generateCodeAtAddress("STORE", getSymbol(arrayName));
+                                                                                                        } 
                             |
                             ;
 commands:                   commands command
@@ -101,7 +85,7 @@ commands:                   commands command
                             ;
 command:                    identifier                                              {
                                                                                         if ($1->isArray == true){
-                                                                                            if(arrayExists($1->arrayName) && getDeclaredSymbol($1->arrayName)->isArray == true){
+                                                                                            if(arrayExists($1->arrayName)){
                                                                                                 loadArray($1);
                                                                                                 generateCodeAtAddress("STORE",0);
                                                                                             }
@@ -109,10 +93,10 @@ command:                    identifier                                          
                                                                                     }
                             ASSIGN expression ';'                                   {
                                                                                         if ($1->isArray == true){
-                                                                                            if (arrayExists($1->arrayName) && getDeclaredSymbol($1->arrayName)->isArray == true)
+                                                                                            if (arrayExists($1->arrayName))
                                                                                                 generateCodeAtAddress("STOREI",0);
                                                                                         }
-                                                                                        else if ($1->isVariable == true && getDeclaredSymbol($1->variable)->isVariable == true){
+                                                                                        else if ($1->isVariable == true){
                                                                                             checkContext("STORE", $1->variable);
                                                                                             if (symbolExists($1->variable))
                                                                                                 assignSymbol($1->variable);
@@ -137,12 +121,6 @@ command:                    identifier                                          
                                                                                     }
                             | FOR PIDENTIFIER FROM value TO value DO                {   
                                                                                         installIdentifier($2);
-                                                                                        Value* newValue = new Value;
-                                                                                        newValue->isArray = false;
-                                                                                        newValue->isVariable = true;
-                                                                                        newValue->isNumber = false;
-                                                                                        declareSymbol($2, newValue);
-                                                                                        
                                                                                         string endFor = strcat(strdup("KONIECFOR"),$2);
                                                                                         installIdentifier(endFor);
                                                                                         
@@ -199,17 +177,10 @@ command:                    identifier                                          
                                                                                         int conditionLine = popFromForStack();
                                                                                         generateCodeAtAddress("JUMP", conditionLine);
                                                                                         deleteSymbol($2);
-                                                                                        undeclareSymbol($2);
                                                                                         deleteSymbol(strcat(strdup("KONIECFOR"),$2));
                                                                                     }
                             | FOR PIDENTIFIER FROM value DOWNTO value DO            {
                                                                                         installIdentifier($2);
-                                                                                        Value* newValue = new Value;
-                                                                                        newValue->isArray = false;
-                                                                                        newValue->isVariable = true;
-                                                                                        newValue->isNumber = false;
-                                                                                        declareSymbol($2, newValue);
-                                                                                        
                                                                                         string endFor = strcat(strdup("KONIECFOR"),$2);
                                                                                         installIdentifier(endFor);
                                                                                         
@@ -266,7 +237,6 @@ command:                    identifier                                          
                                                                                         int conditionLine = popFromForStack();
                                                                                         generateCodeAtAddress("JUMP", conditionLine);
                                                                                         deleteSymbol($2);
-                                                                                        undeclareSymbol($2);
                                                                                         deleteSymbol(strcat(strdup("KONIECFOR"),$2));
                                                                                     }
                             | READ identifier ';'                                   {
@@ -321,15 +291,13 @@ expression:                 value                                               
                                                                                         if ($1->isNumber == true)
                                                                                             loadNumber(stoll($1->number));
                                                                                         else if ($1->isVariable == true){
-                                                                                            if(symbolExists($1->variable) && getDeclaredSymbol($1->variable)->isVariable == true){
-                                                                                                checkIfSymbolIsAssigned($1->variable);
-                                                                                                if (wasAssigned($1->variable)){
-                                                                                                    checkContext("LOAD", $1->variable);
-                                                                                                }
+                                                                                            checkIfSymbolIsAssigned($1->variable);
+                                                                                            if (wasAssigned($1->variable)){
+                                                                                                checkContext("LOAD", $1->variable);
                                                                                             }
                                                                                         }
                                                                                         else if ($1->isArray == true){
-                                                                                            if(arrayExists($1->arrayName) && getDeclaredSymbol($1->arrayName)->isArray == true){
+                                                                                            if(arrayExists($1->arrayName)){
                                                                                                 loadArray($1);
                                                                                                 generateCodeAtAddress("STORE",1);
                                                                                                 generateCodeAtAddress("LOADI",1);
@@ -360,70 +328,73 @@ value:                      NUM                                                 
                             | identifier                                            
                             ;
 identifier:                 PIDENTIFIER                                             {   
-                                                                                        checkIfSymbolIsDeclared($1);
                                                                                         if (symbolExists($1)){
-                                                                                            if (getDeclaredSymbol($1)->isArray == true){
-                                                                                                string errorStr = "Niepoprawne użycie zmiennej tablicowej " + getDeclaredSymbol($1)->arrayName + "!";
-                                                                                                const char* error = errorStr.c_str();
-                                                                                                yyerror(error);
-                                                                                           }
                                                                                             Value* newValue = new Value;
                                                                                             newValue->isArray = false;
                                                                                             newValue->isVariable = true;
                                                                                             newValue->isNumber = false;
                                                                                             newValue->variable = $1;
                                                                                             $$ = newValue;
+                                                                                        } else if (arrayExists(strcat(strdup("ARRAY"),$1))){
+                                                                                            string arrayName = $1;
+                                                                                            string errorStr = "Nieprawidłowe użycie zmiennej tablicowej " + arrayName + "!";
+                                                                                            const char* error = errorStr.c_str();
+                                                                                            yyerror(error);
+                                                                                        } else {
+                                                                                            checkIfSymbolIsDeclared($1);
                                                                                         }
                                                                                     }
                             | PIDENTIFIER'['PIDENTIFIER']'                          {
-                                                                                        checkIfArrayIsDeclared($1);
-                                                                                        if (arrayExists($1)){
-                                                                                            if (getDeclaredSymbol($1)->isVariable == true){
-                                                                                                string errorStr = "Niepoprawne użycie zmiennej " + getDeclaredSymbol($1)->variable + "!";
-                                                                                                const char* error = errorStr.c_str();
-                                                                                                yyerror(error);
-                                                                                            }
+                                                                                        string arrayName = strcat(strdup("ARRAY"),$1);
+                                                                                        if (arrayExists(arrayName)){
                                                                                             checkIfSymbolIsDeclared($3);
-                                                                                            if (getDeclaredSymbol($3)->isArray == true){
-                                                                                                string errorStr = "Niepoprawne użycie zmiennej tablicowej " + getDeclaredSymbol($3)->arrayName + "!";
-                                                                                                const char* error = errorStr.c_str();
-                                                                                                yyerror(error);
+                                                                                            checkIfSymbolIsAssigned($3);
+                                                                                            if(symbolExists($3) && wasAssigned($3)){
+                                                                                                Value* newValue = new Value;
+                                                                                                newValue->isArray = true;
+                                                                                                newValue->isVariableIterator = true;
+                                                                                                newValue->isConstantIterator = false;
+                                                                                                newValue->isVariable = false;
+                                                                                                newValue->isNumber = false;
+                                                                                                newValue->arrayName = arrayName;
+                                                                                                newValue->variableIterator = $3;
+                                                                                                $$ = newValue;
                                                                                             }
-                                                                                            else if (getDeclaredSymbol($3)->isVariable == true)
-                                                                                                checkIfSymbolIsAssigned($3);
-                                                                                            
-                                                                                            Value* newValue = new Value;
-                                                                                            newValue->isArray = true;
-                                                                                            newValue->isVariableIterator = true;
-                                                                                            newValue->isConstantIterator = false;
-                                                                                            newValue->isVariable = false;
-                                                                                            newValue->isNumber = false;
-                                                                                            newValue->arrayName = $1;
-                                                                                            newValue->variableIterator = $3;
-                                                                                            $$ = newValue;
+                                                                                        }
+                                                                                        else if (symbolExists($1)){
+                                                                                            string symbolName = $1;
+                                                                                            string errorStr = "Nieprawidłowe użycie zmiennej " + symbolName + "!";
+                                                                                            const char* error = errorStr.c_str();
+                                                                                            yyerror(error);
+                                                                                        }
+                                                                                        else {
+                                                                                            checkIfArrayIsDeclared(arrayName);
                                                                                         }
                                                                                     }
                             | PIDENTIFIER'['NUM']'                                  {
-                                                                                        checkIfArrayIsDeclared($1);
-                                                                                        if (arrayExists($1)){
-                                                                                            if (getDeclaredSymbol($1)->isVariable == true){
-                                                                                                string errorStr = "Niepoprawne użycie zmiennej " + getDeclaredSymbol($1)->variable + "!";
-                                                                                                const char* error = errorStr.c_str();
-                                                                                                yyerror(error);
-                                                                                            }
+                                                                                        string arrayName = strcat(strdup("ARRAY"),$1);
+                                                                                        if (arrayExists(arrayName)){
                                                                                             Value* newValue = new Value;
                                                                                             newValue->isArray = true;
                                                                                             newValue->isVariableIterator = false;
                                                                                             newValue->isConstantIterator = true;
                                                                                             newValue->isVariable = false;
                                                                                             newValue->isNumber = false;
-                                                                                            newValue->arrayName = $1;
-                                                                                            string str($3);
-                                                                                            newValue->constantIterator = stoll(str);
+                                                                                            newValue->arrayName = arrayName;
+                                                                                            newValue->constantIterator = stoll($3);
                                                                                             $$ = newValue;
                                                                                         }
+                                                                                        else if (symbolExists($1)){
+                                                                                            string symbolName = $1;
+                                                                                            string errorStr = "Nieprawidłowe użycie zmiennej " + symbolName + "!";
+                                                                                            const char* error = errorStr.c_str();
+                                                                                            yyerror(error);
+                                                                                        }
+                                                                                        else {
+                                                                                            checkIfArrayIsDeclared(arrayName);
+                                                                                        }
                                                                                     }
-                            ;    
+                            ; 
 %%
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

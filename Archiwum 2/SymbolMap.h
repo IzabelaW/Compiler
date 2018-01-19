@@ -13,13 +13,10 @@ using namespace std;
 #include <string>
 #include <unordered_map>
 #include <iostream>
-#include <vector>
-extern struct Value value;
 
 
 unordered_map<string,long long> symbolMap;
 unordered_map<string,bool> assignedSymbolMap;
-unordered_map<string,Value*> declaredSymbols;
 
 long long offset = 10;
 
@@ -143,7 +140,8 @@ void installArray(string arrayName, long long arraySize){
         putArray(arrayName, arraySize);
     }
     else {
-        string errorStr = "Tablica " + arrayName + " jest już zadeklarowana!";
+        string finalArrayName = arrayName.erase(0,5);
+        string errorStr = "Tablica " + finalArrayName + " jest już zadeklarowana!";
         const char* error = errorStr.c_str();
         yyerror(error);
     }
@@ -151,29 +149,11 @@ void installArray(string arrayName, long long arraySize){
 
 void checkIfArrayIsDeclared(string arrayName){
     if (!arrayExists(arrayName)){
-        string errorStr = "Użycie niezadeklarowanej tablicy " + arrayName + "!";
+        string finalArrayName = arrayName.erase(0,5);
+        string errorStr = "Użycie niezadeklarowanej tablicy " + finalArrayName + "!";
         const char* error = errorStr.c_str();
         yyerror(error);
     }
 }
 
-void declareSymbol(string symbolName, Value* symbol){
-    pair<string,Value*> declaredSymbol (symbolName, symbol);
-    declaredSymbols.insert(declaredSymbol);
-}
-
-void undeclareSymbol(string symbolName){
-    declaredSymbols.erase(symbolName);
-}
-
-Value* getDeclaredSymbol(string symbolName){
-    return declaredSymbols.at(symbolName);
-}
-
-bool isDeclared(string symbolName){
-    if (declaredSymbols.find(symbolName) == declaredSymbols.end())
-        return false;
-    else
-        return true;
-}
 #endif
