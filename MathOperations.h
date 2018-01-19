@@ -15,7 +15,7 @@ using namespace std;
 
 extern struct Value value; 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                                    void addValues(string a, string b) - generates assembler code for adding two values 
+                                                    void addValues(Value* a, Value* b) - generates assembler code for adding two values 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void addValues(Value* a, Value* b){
@@ -83,7 +83,7 @@ void addValues(Value* a, Value* b){
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                                void subValues(string a, string b) - generates assembler code for subtraction of two values 
+                                                void subValues(Value* a, Value* b) - generates assembler code for subtraction of two values 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void subValues(Value* a, Value* b){
@@ -156,6 +156,10 @@ void subValues(Value* a, Value* b){
         }
     }
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                    void multiplyValues(Value* a, Value* b) - generates assembler code for multiplying two values 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void multiplyValues(Value* a, Value* b){
     int startLine;
@@ -272,6 +276,10 @@ void multiplyValues(Value* a, Value* b){
         generateCodeAtAddress("JUMP", startLine);
         generateCodeAtAddress("LOAD", 6);
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                    void divideValues(Value* a, Value* b) - generates assembler code for dividing two values 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void divideValues(Value* a, Value* b){
     int startLine;
@@ -434,6 +442,10 @@ void divideValues(Value* a, Value* b){
         deleteSymbol("ITERATOR-DZIELENIA-k");
         deleteSymbol("KONIEC-DZIELENIA");
 }
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                    void moduloValues(Value* a, Value* b) - generates assembler code for modulo 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void moduloValues(Value* a, Value* b){
     int startLine;

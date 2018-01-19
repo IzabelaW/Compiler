@@ -11,6 +11,7 @@ using namespace std;
 #include <string>
 #include <string.h>
 #include <stdlib.h>
+#include <iostream>
 #include "Parser.tab.h"
 
 bool comment = false;
@@ -32,19 +33,6 @@ ID                  [_a-z]+
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 %%
-\(                  {
-                        if (comment)
-                            printf("Zagnieżdżone komentarze są niedozwolone!\n");
-                        else
-                            comment = true;
-                    }
-                    
-\)                  {
-                        if (!comment)
-                            printf("Rozpoznano znak końca komentarza bez znaku jego rozpoczęcia!\n");
-                        else
-                            comment = false;
-                    }
                     
 \n.*                { 
                         strcpy(linebuff, yytext+1);                        
@@ -52,50 +40,49 @@ ID                  [_a-z]+
                     }
                     
 {DIGIT}+            {
-                        if (!comment){
-                            yylval.string = (yytext);
-                            return NUM;
-                        }
+                        yylval.string = (yytext);
+                        return NUM;
                     }
                     
-":="                { if (!comment) return ASSIGN;                                 }
-"="                 { if (!comment) return EQUAL;                                  }
-"<>"                { if (!comment) return NOT_EQUAL;                              }
-"<"                 { if (!comment) return LESS;                                   }
-">"                 { if (!comment) return GREATER;                                }
-"<="                { if (!comment) return LESS_EQUAL;                             }
-">="                { if (!comment) return GREATER_EQUAL;                          }
-"["                 { if (!comment) return *yytext;                                }
-"]"                 { if (!comment) return *yytext;                                }
-"+"                 { if (!comment) return *yytext;                                }
-"-"                 { if (!comment) return *yytext;                                }
-"*"                 { if (!comment) return *yytext;                                }
-"/"                 { if (!comment) return *yytext;                                }
-"%"                 { if (!comment) return *yytext;                                }
-";"                 { if (!comment) return *yytext;                                }
-VAR                 { if (!comment) return VAR;                                    }
-BEGIN               { if (!comment) return BEGIN_PROGRAM;                          }
-END                 { if (!comment) return END;                                    }
-READ                { if (!comment) return READ;                                   }
-WRITE               { if (!comment) return WRITE;                                  }
-IF                  { if (!comment) return IF;                                     }
-THEN                { if (!comment) return THEN;                                   }
-ELSE                { if (!comment) return ELSE;                                   }
-ENDIF               { if (!comment) return ENDIF;                                  }
-WHILE               { if (!comment) return WHILE;                                  }
-DO                  { if (!comment) return DO;                                     }
-ENDWHILE            { if (!comment) return ENDWHILE;                               }
-FOR                 { if (!comment) return FOR;                                    }
-FROM                { if (!comment) return FROM;                                   }
-TO                  { if (!comment) return TO;                                     }
-DOWNTO              { if (!comment) return DOWNTO;                                 }
-ENDFOR              { if (!comment) return ENDFOR;                                 }
+\([^)]*[)\n]        {  /* do nothing */                              }
+                    
+":="                { return ASSIGN;                                 }
+"="                 { return EQUAL;                                  }
+"<>"                { return NOT_EQUAL;                              }
+"<"                 { return LESS;                                   }
+">"                 { return GREATER;                                }
+"<="                { return LESS_EQUAL;                             }
+">="                { return GREATER_EQUAL;                          }
+"["                 { return *yytext;                                }
+"]"                 { return *yytext;                                }
+"+"                 { return *yytext;                                }
+"-"                 { return *yytext;                                }
+"*"                 { return *yytext;                                }
+"/"                 { return *yytext;                                }
+"%"                 { return *yytext;                                }
+";"                 { return *yytext;                                }
+VAR                 { return VAR;                                    }
+BEGIN               { return BEGIN_PROGRAM;                          }
+END                 { return END;                                    }
+READ                { return READ;                                   }
+WRITE               { return WRITE;                                  }
+IF                  { return IF;                                     }
+THEN                { return THEN;                                   }
+ELSE                { return ELSE;                                   }
+ENDIF               { return ENDIF;                                  }
+WHILE               { return WHILE;                                  }
+DO                  { return DO;                                     }
+ENDWHILE            { return ENDWHILE;                               }
+FOR                 { return FOR;                                    }
+FROM                { return FROM;                                   }
+TO                  { return TO;                                     }
+DOWNTO              { return DOWNTO;                                 }
+ENDFOR              { return ENDFOR;                                 }
+
 {ID}                {
-                        if (!comment){
-                            yylval.string = (char*) strdup(yytext);
-                            return PIDENTIFIER;
-                        }
+                        yylval.string = (char*) strdup(yytext);
+                        return PIDENTIFIER;
                     }
 [ \t]+              ;
-.                   { if (!comment) printf("ERROR\n");                                  }
+.                   { cerr<<"Unknown character " << yytext <<endl;   }
 %%

@@ -16,7 +16,7 @@ using namespace std;
 extern struct Value value; 
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                            void equal(string a, string b) - generates assembler code for "value a is equal value b" condition
+                                            void equal(Value* a, Value* b) - generates assembler code for "value a is equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void equal(Value* a, Value* b){
@@ -169,7 +169,7 @@ void equal(Value* a, Value* b){
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                            void notEqual(string a, string b) - generates assembler code for "value a is not equal value b" condition
+                                            void notEqual(Value* a, Value* b) - generates assembler code for "value a is not equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void notEqual(Value* a, Value* b){
@@ -271,7 +271,7 @@ void notEqual(Value* a, Value* b){
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                            void lessThan(string a, string b) - generates assembler code for "value a is less than value b" condition
+                                            void lessThan(Value* a, Value* b) - generates assembler code for "value a is less than value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void lessThan(Value* a, Value* b){
@@ -336,7 +336,7 @@ void lessThan(Value* a, Value* b){
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                        void greaterThan(string a, string b) - generates assembler code for "value a is greater than value b" condition
+                                        void greaterThan(Value* a, Value* b) - generates assembler code for "value a is greater than value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void greaterThan(Value* a, Value* b){
@@ -401,7 +401,7 @@ void greaterThan(Value* a, Value* b){
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                        void lessEqualThan(string a, string b) - generates assembler code for "value a is less or equal value b" condition
+                                        void lessEqualThan(Value* a, Value* b) - generates assembler code for "value a is less or equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void lessEqualThan(Value* a, Value* b){
@@ -474,7 +474,7 @@ void lessEqualThan(Value* a, Value* b){
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-                                        void greaterEqualThan(string a, string b) - generates assembler code for "value a is greater equal value b" condition
+                                        void greaterEqualThan(Value* a, Value* b) - generates assembler code for "value a is greater equal value b" condition
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 void greaterEqualThan(Value* a, Value* b){
