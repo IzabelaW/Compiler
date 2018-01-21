@@ -19,7 +19,6 @@ extern FILE *yyin;
 long long yylex(void);
 
 struct Value {
-    bool isLocal;
     bool error;
     bool isArray;
     bool isVariableIterator;
@@ -115,16 +114,9 @@ command:                    identifier                                          
                                                                                                 generateCodeAtAddress("STOREI",0);
                                                                                             }
                                                                                             else if ($1->isVariable == true){
-                                                                                                if (getDeclaredSymbol($1->variable)->isLocal == true){
-                                                                                                    string errorStr = "Zmienna " + $1->variable + " jest iteratorem pętli i nie może być modyfikowana!";
-                                                                                                    const char* error = errorStr.c_str();
-                                                                                                    yyerror(error);
-                                                                                                }
-                                                                                                else {
-                                                                                                    checkContext("STORE", $1->variable);
-                                                                                                    if (symbolExists($1->variable))
-                                                                                                        assignSymbol($1->variable);
-                                                                                                }
+                                                                                                checkContext("STORE", $1->variable);
+                                                                                                if (symbolExists($1->variable))
+                                                                                                    assignSymbol($1->variable);
                                                                                             }
                                                                                         }
                                                                                     }
@@ -151,7 +143,6 @@ command:                    identifier                                          
                                                                                         newValue->isArray = false;
                                                                                         newValue->isVariable = true;
                                                                                         newValue->isNumber = false;
-                                                                                        newValue->isLocal = true;
                                                                                         declareSymbol($2, newValue);
                                                                                         
                                                                                         string endFor = strcat(strdup("KONIECFOR"),$2);
@@ -219,7 +210,6 @@ command:                    identifier                                          
                                                                                         newValue->isArray = false;
                                                                                         newValue->isVariable = true;
                                                                                         newValue->isNumber = false;
-                                                                                        newValue->isLocal = true;
                                                                                         declareSymbol($2, newValue);
                                                                                         
                                                                                         string endFor = strcat(strdup("KONIECFOR"),$2);
@@ -289,15 +279,8 @@ command:                    identifier                                          
                                                                                             }
                                                                                             generateCode("GET");
                                                                                             if ($2->isVariable == true){
-                                                                                                if (getDeclaredSymbol($2->variable)->isLocal == true){
-                                                                                                    string errorStr = "Zmienna " + $2->variable + " jest iteratorem pętli i nie może być modyfikowana!";
-                                                                                                    const char* error = errorStr.c_str();
-                                                                                                    yyerror(error);
-                                                                                                }
-                                                                                                else {
-                                                                                                    checkContext("STORE", $2->variable);
-                                                                                                    assignSymbol($2->variable);
-                                                                                                }
+                                                                                                checkContext("STORE", $2->variable);
+                                                                                                assignSymbol($2->variable);
                                                                                             }
                                                                                             else if ($2->isArray == true){
                                                                                                 generateCodeAtAddress("STOREI",0);

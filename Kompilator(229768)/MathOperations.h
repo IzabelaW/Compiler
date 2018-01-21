@@ -298,11 +298,6 @@ void divideValues(Value* a, Value* b){
     else if (a->isVariable == true && b->isNumber == true){
         checkIfSymbolIsAssigned(a->variable);
         
-        if (stoll(b->number) == 0){
-            generateCode("ZERO");
-            return;
-        }
-            
         checkContext("LOAD", a->variable);
         generateCodeAtAddress("STORE", 4);
         
@@ -319,23 +314,11 @@ void divideValues(Value* a, Value* b){
         generateCodeAtAddress("STORE", 5);
     }
     else if (a->isNumber == true && b->isNumber == true){
-        
-        if (stoll(b->number) == 0){
-            generateCode("ZERO");
-            return;
-        }
-        
         loadNumber(stoll(a->number) / stoll(b->number));
         return;
     }
     else if (a->isArray == true && b->isNumber == true){
         if (arrayExists(a->arrayName)){
-            
-            if (stoll(b->number) == 0){
-            generateCode("ZERO");
-            return;
-            }
-            
             loadArray(a);
             generateCodeAtAddress("STORE", 1);
             generateCodeAtAddress("LOADI", 1);
@@ -395,13 +378,6 @@ void divideValues(Value* a, Value* b){
             generateCodeAtAddress("STORE", 5);
         }
     }
-        generateCodeAtAddress("LOAD", 5);
-        generateCodeAtAddress("JZERO", getNumberOfAsmInstructions() + 2);
-        generateCodeAtAddress("JUMP", getNumberOfAsmInstructions() + 4);
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 6);
-        generateCodeAtAddress("JUMP", getNumberOfAsmInstructions() + 42);
-        
         generateCode("ZERO");
         generateCodeAtAddress("STORE", 6);
         
@@ -488,11 +464,6 @@ void moduloValues(Value* a, Value* b){
     else if (a->isVariable == true && b->isNumber == true){
         checkIfSymbolIsAssigned(a->variable);
         
-        if (stoll(b->number) == 0){
-            generateCode("ZERO");
-            return;
-        }
-        
         checkContext("LOAD", a->variable);
         generateCodeAtAddress("STORE", 4);
         
@@ -509,22 +480,11 @@ void moduloValues(Value* a, Value* b){
         generateCodeAtAddress("STORE", 5);
     }
     else if (a->isNumber == true && b->isNumber == true){
-        if (stoll(b->number) == 0){
-            generateCode("ZERO");
-            return;
-        }
-        
         loadNumber(stoll(a->number) % stoll(b->number));
         return;
     }
     else if (a->isArray == true && b->isNumber == true){
         if (arrayExists(a->arrayName)){
-            
-            if (stoll(b->number) == 0){
-                generateCode("ZERO");
-                return;
-            }
-            
             loadArray(a);
             generateCodeAtAddress("STORE", 1);
             generateCodeAtAddress("LOADI", 1);
@@ -584,12 +544,6 @@ void moduloValues(Value* a, Value* b){
             generateCodeAtAddress("STORE", 5);
         }
     }   
-        generateCodeAtAddress("LOAD", 5);
-        generateCodeAtAddress("JZERO", getNumberOfAsmInstructions() + 2);
-        generateCodeAtAddress("JUMP", getNumberOfAsmInstructions() + 4);
-        generateCode("ZERO");
-        generateCodeAtAddress("STORE", 4);
-        generateCodeAtAddress("JUMP", getNumberOfAsmInstructions() + 44);
         generateCode("ZERO");
         generateCodeAtAddress("STORE", 7);
         

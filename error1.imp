@@ -1,7 +1,8 @@
 ( Błąd w linii 3: druga deklaracja a )
 VAR
-  a b a
+  a b tab[10]
 BEGIN
-  READ a;
-  b := a;
+    tab[1] := 5;
+    b := tab[1] % 3;
+WRITE b;
 END

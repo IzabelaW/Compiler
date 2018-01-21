@@ -1,0 +1,27 @@
+Izabela Wójciak
+Nr. indeksu : 229768
+
+1) Opis załączonych plików
+- Parser.y - plik BISON'a.
+- Lexer.l - plik FLEX'a.
+- CodeGenerator.h - plik zawierający funkcje służące do generowania kodu maszyny wirtualnej i drukowania go.
+- SymbolMap.h - plik zawierający strukturę mapy symulującej rejestr oraz wszystkie funkcje służące do wykonywania na niej operacji.
+- MathOperations.h - plik zawierający funkcje do działań matematycznych.
+- LogicOperations.h - plik zawierający funkcje do operacji logicznych.
+- Makefile - plik służący do kompilacji za pomocą polecenia 'make'.
+
+2) Kompilacja programu
+Aby skompilować wszystkie pliki należy użyć polecenia 'make'. 
+Program wynikowy będzie znajdował się pod nazwą 'compiler'.
+
+3) Przykładowe uruchomienie programu
+$./compiler < input.imp > output
+$./interpreter output
+
+4) Użyte narzędzia
+- bison (GNU Bison) 3.0.4
+- flex 2.5.35 Apple(flex-31)
+- g++ Configured with: --prefix=/Applications/Xcode.app/Contents/Developer/usr --with-gxx-include-dir=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include/c++/4.2.1
+Apple LLVM version 9.0.0 (clang-900.0.39.2)
+Target: x86_64-apple-darwin17.3.0
+Thread model: posix
